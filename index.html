@@ -8,26 +8,30 @@
 	<div>User</div>
 	<ul></ul>
 
-	<script src="libs/jQuery-1.9.1.js"></script>
+	<script src="web/libs/jQuery-1.9.1.js"></script>
+	<script src="web/libs/seajs/2.0.0/sea.js"></script>
+
+	<script src="web/init.js"></script>
+
 	<script>
-		// 请求数据
-		$.ajax({
-			url: "blogData",
-			context: document.body
-		}).done(function(data) {
-			setItem(data)
-		}).fail(function() {
-			alert( "error~" );
-		});
+		// // 请求数据
+		// $.ajax({
+		// 	url: "blogData",
+		// 	context: document.body
+		// }).done(function(data) {
+		// 	setItem(data)
+		// }).fail(function() {
+		// 	alert( "error~" );
+		// });
 
 
-		function setItem(data){
-			for (var i = 0; i < data.length; i++) {
-				$([
-					'<li> '+data[i].name+' </li>'
-				].join('')).appendTo($('body').find('ul'))
-			}
-		}
+		// function setItem(data){
+		// 	for (var i = 0; i < data.length; i++) {
+		// 		$([
+		// 			'<li> '+data[i].name+' </li>'
+		// 		].join('')).appendTo($('body').find('ul'))
+		// 	}
+		// }
 	</script>
 
 

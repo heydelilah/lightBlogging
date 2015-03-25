@@ -1,0 +1,24 @@
+{
+	"server": {
+		"port": 8030
+	},
+
+	"ssp": {
+		"alias": ["ssp.dev", "ssp-z.dev"],
+		"local": {
+			"/main/": "../",
+			"/pubjs/": "../pubjs/",
+			"/data/fack.html": "../data/fack.html"
+		},
+		"indexs": ["index.html"],
+		//"ip": "192.168.11.216", "host": "sspnew.web",
+
+		// "ip": "192.168.10.4",
+		// "host": "sspnew.server",
+		// "port": 80
+
+		"ip": "192.168.10.167",
+		"host": "sspnew.test",
+		"port": 9998
+	}
+}
