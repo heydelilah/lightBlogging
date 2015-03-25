@@ -7,5 +7,6 @@ handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 
 handle["/blogData"] = requestHandlers.blogData;
+handle["/addUser"] = requestHandlers.addUser;
 
 server.start(router.route, handle);
