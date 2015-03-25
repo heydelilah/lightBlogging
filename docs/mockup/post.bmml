@@ -1,0 +1,53 @@
+<mockup version="1.0" skin="sketch" measuredW="569" measuredH="674" mockupW="539" mockupH="641">
+  <controls>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="43" y="279" w="526" h="329" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Title" x="30" y="33" w="-1" h="-1" measuredW="126" measuredH="51" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u5199%u6587%u7AE0</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::TextInput" x="114" y="115" w="336" h="-1" measuredW="79" measuredH="28" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::NumericStepper" x="114" y="160" w="-1" h="-1" measuredW="59" measuredH="25" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u8BFB%u4E66</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Label" x="43" y="116" w="-1" h="-1" measuredW="45" measuredH="22" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u6807%u9898%uFF1A</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Label" x="45" y="161" w="-1" h="-1" measuredW="45" measuredH="22" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u9891%u9053%uFF1A</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Label" x="45" y="207" w="45" h="20" measuredW="45" measuredH="22" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u5185%u5BB9%uFF1A</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Button" x="46" y="647" w="-1" h="-1" measuredW="50" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u4FDD%u5B58</text>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Button" x="128" y="646" w="-1" h="-1" measuredW="50" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u91CD%u7F6E</text>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::PointyButton" x="516" y="40" w="-1" h="-1" measuredW="47" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>home%26bm%3Bhome.bmml%26bm%3Bhome.bmml%26bm%3Bhome.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22486%2C7%2C533%2C34%22%20href%3D%22home.bmml%22%20alt%3D%22home%22%20id%3D%2216%22/%3E</map>
+        <text>%u8FD4%u56DE</text>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::FormattingToolbar" x="43" y="250" w="-1" h="-1" measuredW="270" measuredH="29" zOrder="10" locked="false" isInGroup="-1"/>
+  </controls>
+</mockup>
