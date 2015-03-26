@@ -1,7 +1,6 @@
 var fs = require('fs');
 var url = require('url');
 var querystring = require("querystring");
-// var formidable = require('formidable');
 var mongodb = require('mongodb');
 var db;
 
@@ -17,20 +16,20 @@ function start(response) {
 }
 exports.start = start;
 
+// 连接数据库
 function connect(){
 	// Retrieve
 	var MongoClient = mongodb.MongoClient;
 
-	// Connect to the db
 	MongoClient.connect("mongodb://localhost:27017/test", function(err, database) {
 		if(!err) {
-			console.log("We are connected");
 
 			// 赋予全局变量
 			db = database;
 
+			console.log("connect mongodb succeed");
 		}else{
-			console.log('error');
+			console.log('connect mongodb failed');
 		}
 	});
 }
@@ -55,15 +54,51 @@ function blogData(response) {
 }
 exports.blogData = blogData;
 
-// 添加用户
-function addUser(res, req){
-	console.log(req.url)
-	var arg = url.parse(req.url).query;
+var IdCounter = 0;
 
-	var str = querystring.parse(arg); 
-	console.log(str);  
+// 添加用户
+function addUser(response, request){
 	if(db){
-		var collection = db.collection('user');
+		console.log(request.url)
+		if (request.method == 'GET'){
+			var arg = url.parse(request.url).query;
+			var data = querystring.parse(arg);
+			console.log(data)
+		}
+		if (request.method == 'POST'){
+			var body = '';
+
+			request.on('data', function (data) {
+				body += data;
+			});
+
+			request.on('end', function () {
+				var data = querystring.parse(body);
+				console.log(data)
+
+				var collection = db.collection('user');
+				IdCounter++;
+				collection.insert({
+					'Id': IdCounter,				// 自增
+					'Name': data.Name || '',
+					'Email': data.Email || '',
+					'Password': data.Password || 0,	// @todo 加密
+					'Rights': data.Rights || [],
+					'Role': data.Role || 0,
+					'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
+					'LoginTime': data.LoginTime || ''
+				}, {w: 1}, function(err, records){
+					console.log("Record added as "+records[0]);
+				});
+
+				// 假设都是成功的
+				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+				response.write(JSON.stringify({"Id": IdCounter}));
+				response.end();
+			});
+		}
+
+
 	}
 }
 exports.addUser = addUser;
