@@ -21,7 +21,7 @@ function connect(){
 	// Retrieve
 	var MongoClient = mongodb.MongoClient;
 
-	MongoClient.connect("mongodb://localhost:27017/test", function(err, database) {
+	MongoClient.connect("mongodb://localhost:27017/blog", function(err, database) {
 		if(!err) {
 
 			// 赋予全局变量
@@ -36,12 +36,12 @@ function connect(){
 
 
 // 获取post的全部数据
-function blogData(response) {
+function getPostData(response) {
 	if(db){
-		var collection = db.collection('blog');
+		var collection = db.collection('post');
 
 		collection.find().toArray(function(err, items) {
-			console.log(items);
+			// console.log(items);
 			var data = JSON.stringify(items);
 
 			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
@@ -52,7 +52,7 @@ function blogData(response) {
 
 	}
 }
-exports.blogData = blogData;
+exports.getPostData = getPostData;
 
 var IdCounter = 0;
 
@@ -102,3 +102,21 @@ function addUser(response, request){
 	}
 }
 exports.addUser = addUser;
+
+
+// 返回模版数据
+function loadTpl(response, request){
+
+	// 请求参数
+	var arg = url.parse(request.url).query;
+	var param = querystring.parse(arg);
+	console.log(param)
+
+	var file = fs.readFileSync('web/template/'+param.uri);
+
+
+	response.writeHead(200, {'Content-Type': 'text/html'});
+	response.write(file);
+	response.end()
+}
+exports.loadTpl = loadTpl;

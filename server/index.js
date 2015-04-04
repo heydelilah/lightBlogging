@@ -6,7 +6,11 @@ var handle = {}
 handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 
-handle["/blogData"] = requestHandlers.blogData;
+// handle["/blogData"] = requestHandlers.blogData;
 handle["/addUser"] = requestHandlers.addUser;
+
+handle["/getPostData"] = requestHandlers.getPostData;
+
+handle["/loadTpl"] = requestHandlers.loadTpl;
 
 server.start(router.route, handle);

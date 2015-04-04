@@ -21,7 +21,8 @@
 				"jquery":		"@libs/jquery/jquery-1.8.3.min.js",
 				"router":		ROOT("web/public/router"),
 				"util":			ROOT("web/public/util"),
-				"core":			ROOT("web/public/core")
+				"core":			ROOT("web/public/core"),
+				"handlebars": 	"@libs/handlebars-v3.0.0.js"
 			},
 			paths: {
 				"@libs":		ROOT("web/libs")

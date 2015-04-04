@@ -1,0 +1,66 @@
+.is-hidden {
+  display: none !important;
+}
+.is-invisible {
+  visibility: none !important;
+}
+.block {
+  display: block        !important;
+}
+.inline {
+  display: inline       !important;
+}
+.inline-block {
+  display: inline-block !important;
+}
+.left {
+  float: left  !important;
+}
+.right {
+  float: right !important;
+}
+.text-left {
+  text-align: left   !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right  !important;
+}
+.mt0 {
+  margin-top: 0   !important;
+}
+.mt1 {
+  margin-top: 1em !important;
+}
+.mb0 {
+  margin-bottom: 0   !important;
+}
+.mb1 {
+  margin-bottom: 1em !important;
+}
+.G-layout {
+  margin: 0 auto;
+  width: 1000px;
+}
+.P-homeArticle {
+  overflow: hidden;
+  max-height: 300px;
+  margin-bottom: 20px;
+  border-bottom: 1px #eee solid;
+}
+.P-homeArticle .title {
+  font-size: 20px;
+}
+.P-homeArticle .info {
+  color: #939393;
+}
+.P-homeArticle .infoItem {
+  margin-right: 10px;
+  display: inline-block;
+}
+.P-homeArticle .post {
+  background: #F5F5F5;
+  padding: 10px;
+}
