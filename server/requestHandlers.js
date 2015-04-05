@@ -4,18 +4,6 @@ var querystring = require("querystring");
 var mongodb = require('mongodb');
 var db;
 
-function start(response) {
-	var file = fs.readFileSync('index.html');
-
-	// 启动数据库
-	connect();
-
-	response.writeHead(200, {'Content-Type': 'text/html'});
-	response.write(file);
-	response.end()
-}
-exports.start = start;
-
 // 连接数据库
 function connect(){
 	// Retrieve
@@ -34,89 +22,166 @@ function connect(){
 	});
 }
 
+// 核心
+var Core = {
+	start: function(response){
+		var file = fs.readFileSync('index.html');
 
-// 获取post的全部数据
-function getPostData(response) {
-	if(db){
-		var collection = db.collection('post');
+		// 启动数据库
+		connect();
 
-		collection.find().toArray(function(err, items) {
-			// console.log(items);
-			var data = JSON.stringify(items);
+		response.writeHead(200, {'Content-Type': 'text/html'});
+		response.write(file);
+		response.end()
+	},
+	// 返回模版数据
+	template: function(response, request){
+		// 请求参数
+		var arg = url.parse(request.url).query;
+		var param = querystring.parse(arg);
+		console.log(param)
 
-			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-			response.write(data);
-			response.end();
+		var file = fs.readFileSync('web/template/'+param.uri);
 
-		});
 
+		response.writeHead(200, {'Content-Type': 'text/html'});
+		response.write(file);
+		response.end()		
 	}
+
 }
-exports.getPostData = getPostData;
+exports.core = Core;
 
-var IdCounter = 0;
 
-// 添加用户
-function addUser(response, request){
-	if(db){
-		console.log(request.url)
+// 文章
+var Post = {
+	// 获取post的全部数据
+	list: function(response){
+		if(db){
+			var collection = db.collection('post');
+
+			collection.find().toArray(function(err, items) {
+				// console.log(items);
+				var data = JSON.stringify(items);
+
+				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+				response.write(data);
+				response.end();
+
+			});
+		}
+	},
+	info: function(response, request){
 		if (request.method == 'GET'){
 			var arg = url.parse(request.url).query;
-			var data = querystring.parse(arg);
-			console.log(data)
+			var param = querystring.parse(arg);
 		}
-		if (request.method == 'POST'){
-			var body = '';
 
-			request.on('data', function (data) {
-				body += data;
-			});
+		if(db){
+			var collection = db.collection('post');
 
-			request.on('end', function () {
-				var data = querystring.parse(body);
-				console.log(data)
+			collection.find({'id': +param.id}).toArray(function(err, items) {
 
-				var collection = db.collection('user');
-				IdCounter++;
-				collection.insert({
-					'Id': IdCounter,				// 自增
-					'Name': data.Name || '',
-					'Email': data.Email || '',
-					'Password': data.Password || 0,	// @todo 加密
-					'Rights': data.Rights || [],
-					'Role': data.Role || 0,
-					'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
-					'LoginTime': data.LoginTime || ''
-				}, {w: 1}, function(err, records){
-					console.log("Record added as "+records[0]);
-				});
+				var data = JSON.stringify(items);
 
-				// 假设都是成功的
 				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-				response.write(JSON.stringify({"Id": IdCounter}));
+				response.write(data);
 				response.end();
+
 			});
 		}
+	}
+}
+exports.post = Post;
 
+// 评论
+var Comment = {
+	list: function(response, request){
+		if (request.method == 'GET'){
+			var arg = url.parse(request.url).query;
+			var param = querystring.parse(arg);
+		}
+
+		if(db){
+			var cm = db.collection('comment');
+			// var user = db.collection('user');
+
+			cm.find({'postId': +param.id}).toArray(function(err, cmData) {
+
+				// for (var i = 0; i < cmData.length; i++) {
+					
+				// 	user.find({'id': +cmData[i].userId}).toArray(function(err, userData){
+						
+				// 		var value = userData[0];
+				// 		console.log(userData)
+				// 		if(value){
+				// 			cmData[i].name = value.name;
+				// 			cmData[i].email = value.email;
+				// 		}
+				// 	});
+
+				// };
+
+				var data = JSON.stringify(cmData);
+
+				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+				response.write(data);
+				response.end();
+
+			});
+		}
 
 	}
 }
-exports.addUser = addUser;
+exports.comment = Comment;
 
+// 用户
+var IdCounter = 0;
+var User = {
+	// 添加用户
+	create: function(response, request){
+		if(db){
+			console.log(request.url)
+			if (request.method == 'GET'){
+				var arg = url.parse(request.url).query;
+				var data = querystring.parse(arg);
+				console.log(data)
+			}
+			if (request.method == 'POST'){
+				var body = '';
 
-// 返回模版数据
-function loadTpl(response, request){
+				request.on('data', function (data) {
+					body += data;
+				});
 
-	// 请求参数
-	var arg = url.parse(request.url).query;
-	var param = querystring.parse(arg);
-	console.log(param)
+				request.on('end', function () {
+					var data = querystring.parse(body);
+					console.log(data)
 
-	var file = fs.readFileSync('web/template/'+param.uri);
+					var collection = db.collection('user');
+					IdCounter++;
+					collection.insert({
+						'Id': IdCounter,				// 自增
+						'Name': data.Name || '',
+						'Email': data.Email || '',
+						'Password': data.Password || 0,	// @todo 加密
+						'Rights': data.Rights || [],
+						'Role': data.Role || 0,
+						'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
+						'LoginTime': data.LoginTime || ''
+					}, {w: 1}, function(err, records){
+						console.log("Record added as "+records[0]);
+					});
 
-
-	response.writeHead(200, {'Content-Type': 'text/html'});
-	response.write(file);
-	response.end()
+					// 假设都是成功的
+					response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+					response.write(JSON.stringify({"Id": IdCounter}));
+					response.end();
+				});
+			}
+		}
+	}
 }
-exports.loadTpl = loadTpl;
+exports.user = User;
+
+

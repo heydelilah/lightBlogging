@@ -13,7 +13,7 @@ define(function(require, exports){
 	function create(name, uri, param, callback){
 
 		// 处理非必填参数
-		if(!callback){
+		if(!callback && typeof param == 'function'){
 			callback = param;
 		}
 
@@ -30,9 +30,6 @@ define(function(require, exports){
 				return;
 			}
 		}
-
-
-
 
 		var url = window.ROOT(uri);
 		var type = url;
@@ -59,11 +56,14 @@ define(function(require, exports){
 				target.appendTo(global.frame);
 			}
 
+			// 合并参数
+			var initConfig = $.extend({
+				"target": target
+			},param);
+
 			// 执行函数 -init
 			mod = mod[type];
-			mod.init({
-				"target": target
-			}, function(){
+			mod.init(initConfig, function(){
 
 				// 执行回调函数
 				if(callback){

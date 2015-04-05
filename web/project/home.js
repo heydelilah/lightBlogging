@@ -44,7 +44,7 @@ define(function(require, exports){
 
 				// 请求数据
 				$.ajax({
-					url: "getPostData",
+					url: "post/list",
 					context: document.body
 				}).done(function(data) {
 

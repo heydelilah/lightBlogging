@@ -31,7 +31,7 @@ define(function(require, exports){
 
 		// 请求数据
 		$.ajax({
-			url: "loadTpl",
+			url: "core/template",
 			data: {"uri": uri},
 			context: document.body
 		}).done(function(data) {

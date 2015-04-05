@@ -1,9 +1,3 @@
-db lightBlogging
-collections
-user
-catecory(channel)
-article
-
 静态数据
 
 用户
@@ -52,7 +46,32 @@ id, name, desc, creator, createTime, updateTime
 1 
 comment
 =========
-id, a_id(所属文章), (name/email)|user_id
+id, content, postId(所属文章), userId, createTime
+var comment = [
+	// 楼主
+	{
+		"id": 3,
+		"content": "Thank you all."
+		"postId": 1,
+		"userId": 1
+	},
+	// 游客
+	{
+		"id": 2,
+		"content": "I am visitor~, I love this post."
+		"postId": 1,
+		"userId": 0,
+		"name": "vistors",
+		"email": "vistors@mail.com"
+	},
+	// 会员
+	{
+		"id": 1,
+		"content": "Hi, how are you ? I love this post."
+		"postId": 1,
+		"userId": 2
+	}
+]
 
 role
 =========

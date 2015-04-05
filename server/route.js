@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+var requestHandlers = require('./requestHandlers');
+
 // 类型映射表
 var TYPES = {
 	'png': 'image/png',
@@ -11,13 +13,32 @@ var TYPES = {
 	'css': 'text/css',
 	'html': 'text/html; charset=utf-8',
 	'htm': 'text/html; charset=utf-8',
-	'ico': 'image/x-icon'
+	'ico': 'image/x-icon',
+	'svg': 'image/svg+xml'
 };
 
-function route (handle, pathname, response, request) {
-	if (typeof handle[pathname] === 'function') {
-		handle[pathname](response, request);
-	} else {
+function route (pathname, response, request) {
+	// 定义路由规则
+	// 第一个为实例对象，第二个为函数方法
+	var result = pathname.match(/[A-z]+/g);
+
+	if (result == null || !result.length) {
+		result = ['core', 'start'];
+	}
+
+
+	// 模块名
+	var modName = result[0];
+	// 函数名
+	var funcName = result[1];
+
+	var module = requestHandlers[modName];
+
+
+	if(module && typeof module[funcName] === 'function'){
+		module[funcName](response, request);
+
+	}else {
 
 		// 去掉第一个\
 		pathname = pathname.replace('\/','');
