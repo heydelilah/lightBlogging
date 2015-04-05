@@ -3,7 +3,7 @@ define(function(require, exports){
 
 	exports.onMain = function(boot,data,app){
 
-		core.create('web/project/admin/user.base');
+		core.create('user', 'web/project/admin/user.base');
 
 	};
 });

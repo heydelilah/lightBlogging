@@ -33,11 +33,18 @@
 
 	// SeaJS全局配置
 	Sea.config(sea_config());
+
 	// 引入模块, 开始初始化
-	Sea.use(['jquery','router'], function(JQUERY, ROUTER){
-		jQuery = JQUERY;
-		router = ROUTER;
-		router.start();
+	Sea.use(['core', 'jquery', 'router'], function(core, $, router){
+
+		// 创建全局底层框架
+		core.create('frame', 'web/public/framework.base', function(){
+
+			// 启动路由
+			router.start();
+			
+		});
+
 
 	});
 

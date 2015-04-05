@@ -3,26 +3,6 @@ define(function(require, exports){
 	var $ = require('jquery');
 	var handlebars = require('handlebars');
 
-	var Home = function(){
-
-		// 请求数据
-		$.ajax({
-			url: "getPostData",
-			context: document.body
-		}).done(function(data) {
-			console.log(data);
-			for (var i = 0; i < data.length; i++) {
-				if(data[i].content){
-					createPost(data[i]);
-				}
-			};
-		}).fail(function() {
-			alert( "add user failed" );
-		});
-	
-	}
-	exports.base = Home;
-	
 	// 数据映射表
 	var MAPPING = {
 		userId: {
@@ -36,47 +16,65 @@ define(function(require, exports){
 		}
 	};
 
-	function tranData(data){
-		for(var name in data){
-			var config = MAPPING[name];
-			if(config){
-				data[name] = config[ data[name] ];
+	var Home = {
+		init: function(config){
+			var self = this;
 
-			}
+			this.$config = config;
+
+			this.$el = $('<div class="P-home"/>').appendTo(config.target);
+
+
+			// 请求数据
+			$.ajax({
+				url: "getPostData",
+				context: document.body
+			}).done(function(data) {
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					if(data[i].content){
+						self.createPost(data[i]);
+					}
+				};
+			}).fail(function() {
+				alert( "add user failed" );
+			});
+
+		},
+		getContainer: function(){
+			return this.$doms;
+		},
+		// 创建文章
+		createPost: function(data){
+			var self = this;
+
+			data = this.tranData(data);
+
+			// 从服务器加载模版html文件
+			util.loadTpl('home.html', function(file){
+
+				// 使用 handlebars 解析
+				var template = Handlebars.compile(file);
+				var dom = template(data)
+
+				// 插入到浏览器页面
+				self.$el.append(dom);
+			});
+		},
+		tranData: function(data){
+			for(var name in data){
+				var config = MAPPING[name];
+				if(config){
+					data[name] = config[ data[name] ];
+
+				}
 				if(name == 'createTime'){
 					data[name] = util.timeFormat(data[name], 'YYYY-MM-dd h:m:s');
 				}
-
-
+			}
+			return data;
 		}
-
-		return data;
 	}
-
-	// 创建文章
-	function createPost(data){
-		data = tranData(data);
-		var el = $(document.body);
-
-		// 从服务器加载模版html文件
-		util.loadTpl('home.html', function(file){
-			console.log(file)
-
-			// 使用 handlebars 解析
-			var template = Handlebars.compile(file);
-			var dom = template(data)
-
-			// var data = handlebars.compile(file)
-			// 插入到浏览器页面
-			el.append(dom);
-
-			// $(dom).find('.post').append(data.content);
-
-		});
-		
-	}
-
-
-
-
+	exports.base = Home;
+	
 });

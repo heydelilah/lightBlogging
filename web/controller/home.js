@@ -1,9 +1,9 @@
 define(function(require, exports){
 	var core = require('core');
 
-	exports.onMain = function(boot,data,app){
+	exports.onMain = function(boot,data){
 
-		core.create('web/project/home.base');
+		core.create('home', 'web/project/home.base');
 
 	};
 });

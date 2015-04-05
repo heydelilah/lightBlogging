@@ -33,6 +33,19 @@ var post = {
 
 }
 
+var post = {
+	"id": 2,
+	"title": "Space Oddity",
+	"content": "",
+	"userId": 1,
+	"createTime": "1428135140155",
+	"updateTime": "1428135140155",
+	"channel": 1,
+	"tag": 1
+
+}
+
+
 channel
 =========
 id, name, desc, creator, createTime, updateTime
