@@ -4,31 +4,22 @@ define(function(require, exports){
 	var handlebars = require('handlebars');
 
 	var Home = function(){
-		
-		var dom = $([
-			'<div><input type="button" value="show" class="save"></div>'
-		].join('')).appendTo(document.body);
 
-		// 监听点击事件
-		dom.find('.save').on('click', function(ev){
-
-			// 请求数据
-			$.ajax({
-				url: "getPostData",
-				// data: data,
-				// type: "POST",
-				context: document.body
-			}).done(function(data) {
-				console.log(data);
-				for (var i = 0; i < data.length; i++) {
-					if(data[i].content){
-						createPost(data[i]);
-					}
-				};
-			}).fail(function() {
-				alert( "add user failed" );
-			});
+		// 请求数据
+		$.ajax({
+			url: "getPostData",
+			context: document.body
+		}).done(function(data) {
+			console.log(data);
+			for (var i = 0; i < data.length; i++) {
+				if(data[i].content){
+					createPost(data[i]);
+				}
+			};
+		}).fail(function() {
+			alert( "add user failed" );
 		});
+	
 	}
 	exports.base = Home;
 	
