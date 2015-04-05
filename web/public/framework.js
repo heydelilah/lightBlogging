@@ -6,6 +6,8 @@ define(function(require, exports){
 
 	var Frame = {
 		init: function(config, callback){
+			var self = this;
+
 			// 创建底层容器
 			var el = this.$el = $('<div class="G-frame"/>').appendTo($(document.body));
 
@@ -19,12 +21,23 @@ define(function(require, exports){
 				// 插入到浏览器页面
 				el.append(dom);
 
+				// 绑定按钮事件
+				el.find('.buttons .login').on('click', self.eventLogin);
+				el.find('.buttons .signUp').on('click', self.eventSignup);
+
+
 				// 缓存dom元素
 				core._.frame = el.find('.G-frameBody');
 
 				// 加载完成，执行回调，返回上一级
 				callback();
 			});
+		},
+		eventLogin: function(ev){
+			console.log(arguments);
+		},
+		eventSignup: function(ev){
+			window.location.hash = "#user";
 		}
 	}
 	exports.base = Frame;

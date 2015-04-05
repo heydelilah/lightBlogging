@@ -5,42 +5,54 @@ define(function(require, exports){
 	// 新增用户
 	var AddUser = {
 		init: function(config){
+
+			var self = this;
+
 			var c = this.$config = config;
 
-			this.$el = $('<div class="P-user" />').appendTo(c.target);
+			// 创建底层容器
+			var el = this.$el = $('<div class="P-user" />').appendTo(c.target);
 
-			// 界面
-			var dom = $([
-				'<div>Add user</div>',
-				'<div><label>姓名：</label><input type="text" class="name"></div>',
-				'<div><label>邮箱：</label><input type="text" class="email"></div>',
-				'<div><label>密码：</label><input type="text" class="password"></div>',
-				'<div><input type="button" value="save" class="save"></div>'
-			].join('')).appendTo(this.$el);
+			// 从服务器加载模版html文件
+			util.loadTpl('signup.html', function(file){
 
-			// 监听点击事件
-			dom.find('.save').on('click', function(ev){
+				// 使用 handlebars 解析
+				var template = Handlebars.compile(file);
+				var dom = template();
 
-				// getData()
-				var data = {
-					'Name': dom.find('.name').val(),
-					'Email': dom.find('.email').val(),
-					'Password': dom.find('.password').val()
-				};
+				// 插入到浏览器页面
+				el.append(dom);
 
-				// 请求数据
-				$.ajax({
-					url: "addUser",
-					data: data,
-					type: "POST",
-					context: document.body
-				}).done(function(data) {
-					console.log(data)
-				}).fail(function() {
-					alert( "add user failed" );
-				});
+				// 监听按钮点击事件
+				el.find('.save').on('click', self.eventSave);
+				el.find('.back').on('click', self.eventBack);
+
 			});
 			
+		},
+		eventSave: function(ev){
+			// getData()
+			var data = {
+				'Name': dom.find('.name').val(),
+				'Email': dom.find('.email').val(),
+				'Password': dom.find('.password').val()
+			};
+
+			// 请求数据
+			$.ajax({
+				url: "addUser",
+				data: data,
+				type: "POST",
+				context: document.body
+			}).done(function(data) {
+				console.log(data)
+			}).fail(function() {
+				alert( "add user failed" );
+			});
+
+		},
+		eventBack: function(ev){
+			window.location.hash = "#home"
 		}
 
 	}

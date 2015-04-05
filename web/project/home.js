@@ -18,47 +18,69 @@ define(function(require, exports){
 
 	var Home = {
 		init: function(config){
+
+
+			// this.$config = config;
+
+			
 			var self = this;
 
-			this.$config = config;
-
-			this.$el = $('<div class="P-home"/>').appendTo(config.target);
-
-
-			// 请求数据
-			$.ajax({
-				url: "getPostData",
-				context: document.body
-			}).done(function(data) {
-				console.log(data);
-				for (var i = 0; i < data.length; i++) {
-					if(data[i].content){
-						self.createPost(data[i]);
-					}
-				};
-			}).fail(function() {
-				alert( "add user failed" );
-			});
-
-		},
-		getContainer: function(){
-			return this.$doms;
-		},
-		// 创建文章
-		createPost: function(data){
-			var self = this;
-
-			data = this.tranData(data);
+			// 创建底层容器
+			var el = this.$el = $('<div class="P-home"/>').appendTo(config.target);
 
 			// 从服务器加载模版html文件
 			util.loadTpl('home.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
+				var dom = template();
+
+				// 插入到浏览器页面
+				el.append(dom);
+
+				// 绑定按钮事件
+				el.find('.buttons .add').on('click', self.eventAddPost);
+
+
+				// 请求数据
+				$.ajax({
+					url: "getPostData",
+					context: document.body
+				}).done(function(data) {
+
+					for (var i = 0; i < data.length; i++) {
+						if(data[i].content){
+							self.createPost(data[i]);
+						}
+					};
+				}).fail(function() {
+					alert( "load post data failed" );
+				});
+			});
+
+
+		},
+		eventAddPost: function(ev){
+			console.log('add post');
+		},
+		getContainer: function(){
+			return this.$doms;
+		},
+		// 创建文章
+		createPost: function(data){
+			var target = this.$el.find('.post');
+
+			data = this.tranData(data);
+
+			// 从服务器加载模版html文件
+			util.loadTpl('article.html', function(file){
+
+				// 使用 handlebars 解析
+				var template = Handlebars.compile(file);
 				var dom = template(data)
 
 				// 插入到浏览器页面
-				self.$el.append(dom);
+				target.append(dom);
 			});
 		},
 		tranData: function(data){

@@ -1,0 +1,39 @@
+<article class="P-homeArticle uk-article">
+
+	<a href="#detail/{{id}}" class="uk-article-title uk-h2 block mb15">{{title}} </a>
+
+	
+	<div class="uk-article-meta">
+		
+		<div class="metaItem">
+			<label>作者：</label>
+			<span> {{userId}} </span>
+		</div>
+		
+		<div class="metaItem">
+			<label>发布日期：</label>
+			<span> {{createTime}} </span>
+		</div>
+		
+		<div class="metaItem">
+			<label>所属频道：</label>
+			<span> {{channel}} </span>
+		</div>
+		
+		<div class="metaItem">
+			<label>标签：</label>
+			<span> {{tag}} </span>
+		</div>
+	</div>
+
+	<hr class="uk-article-divider"></hr>
+
+	<div class="post">
+		{{{content}}}
+	</div>
+
+	<div class="mt1">
+		<a> > 显示全文</a>
+	</div>
+
+</article>

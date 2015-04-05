@@ -7,7 +7,7 @@ article
 
 user
 =========
-id, name, email, password, rights, role, registerTime, loginTime
+id, name, email, password, rights, role, registerTime, loginTime, avatar
 1, Deliah, delilah@mail.com, 123, [], admin
 
 post
@@ -20,7 +20,7 @@ id, name, desc, creator, createTime, updateTime
 
 comment
 =========
-id, a_id(所属文章), (name/email)|user_id
+id, content, postId(所属文章), userId, createTime
 
 role
 =========

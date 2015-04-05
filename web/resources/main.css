@@ -19,6 +19,9 @@
 .right {
   float: right !important;
 }
+.clear {
+  clear: both !important;
+}
 .text-left {
   text-align: left   !important;
 }
@@ -39,6 +42,15 @@
 }
 .mb1 {
   margin-bottom: 1em !important;
+}
+.ml1 {
+  margin-left: 1em !important;
+}
+.mr1 {
+  margin-right: 1em !important;
+}
+.mb15 {
+  margin-bottom: 15px !important;
 }
 .G-layout {
   margin: 0 auto;
@@ -82,9 +94,9 @@
 .G-frameHeaderNav li a:hover {
   color: green;
 }
-.P-homeArticle {
+.P-homeArticle .post {
   overflow: hidden;
-  max-height: 300px;
+  max-height: 250px;
 }
 .P-homeArticle .metaItem {
   margin-right: 10px;

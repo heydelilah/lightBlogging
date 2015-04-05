@@ -1,34 +1,16 @@
-<article class="P-homeArticle uk-article">
-	
-	<h1 class="uk-article-title"> {{title}} </h1>
-	
-	<div class="uk-article-meta">
-		
-		<div class="metaItem">
-			<label>作者：</label>
-			<span> {{userId}} </span>
-		</div>
-		
-		<div class="metaItem">
-			<label>发布日期：</label>
-			<span> {{createTime}} </span>
-		</div>
-		
-		<div class="metaItem">
-			<label>所属频道：</label>
-			<span> {{channel}} </span>
-		</div>
-		
-		<div class="metaItem">
-			<label>标签：</label>
-			<span> {{tag}} </span>
-		</div>
-	</div>
+<!-- 过滤器 -->
+<div class="filter"></div>
 
-	<hr class="uk-article-divider"></hr>
+<!-- 按钮区 －功能 -->
+<div class="buttons">
 
-	<div class="post">
-		{{{content}}}
-	</div>
+	<span class="search"></span>
+	<span class="add">
+		<input type="button" value="发布新文章" class="uk-button uk-button-success uk-button-large right">
+	</span>
 
-</article>
+</div>
+
+
+<!-- 正文区域 -->
+<div class="post clear"></div>
