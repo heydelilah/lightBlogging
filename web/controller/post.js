@@ -22,7 +22,7 @@ define(function(require, exports){
 			core.create(name, 'web/project/post/detail.base', {'param': data.param});
 		}else{
 			core.changeScene(name);
-			// mod.reload();
+			mod.reload(data.param);
 		}
 	};
 

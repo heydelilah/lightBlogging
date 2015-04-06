@@ -37,7 +37,7 @@ define(function(require, exports){
 				el.append(dom);
 
 				// 绑定按钮事件
-				el.find('.buttons .add').on('click', self.eventAddPost);
+				el.find('.P-postButtons .add').on('click', self.eventAddPost);
 
 				// 请求数据
 				self.load();
@@ -65,13 +65,13 @@ define(function(require, exports){
 			return this.$doms;
 		},
 		reload: function(){
-			this.$el.find('.post').empty();
+			this.$el.find('.P-postContent').empty();
 			this.load();
 		},
 		// 创建文章
 		createPost: function(data){
 			var c = this.$config;
-			var target = this.$el.find('.post');
+			var target = this.$el.find('.P-postContent');
 
 			data = this.tranData(data);
 

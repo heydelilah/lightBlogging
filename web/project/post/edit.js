@@ -29,7 +29,7 @@ define(function(require, exports){
 					basePath: 'web/libs/kindeditor/',
 				}
 
-				self.$editor = KindEditor.create('#editor_id', option);
+				self.$editor = KindEditor.create('#editorPost', option);
 
 				// 绑定按钮点击事件
 				el.find('.save').on('click', self, self.eventSave);

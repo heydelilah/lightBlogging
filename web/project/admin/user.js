@@ -52,7 +52,7 @@ define(function(require, exports){
 
 		},
 		eventBack: function(ev){
-			window.location.hash = "#home"
+			window.location.hash = "#post"
 		}
 
 	}

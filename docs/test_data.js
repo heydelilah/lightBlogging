@@ -6,7 +6,15 @@ reset
 db.user.drop();
 db.post.drop();
 db.comment.drop();
+db.counter.drop();
 
+db.counter.insert({
+	"id": 0,
+	"user": 0,
+	"post": 0,
+	"tag": 0,
+	"channel": 0
+});
 db.user.insert({
 	"Id": 1,
 	"Name": "Delilah",
