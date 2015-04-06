@@ -52,6 +52,9 @@
 .mb15 {
   margin-bottom: 15px !important;
 }
+.mb2 {
+  margin-bottom: 2em !important;
+}
 .G-layout {
   margin: 0 auto;
   width: 1000px;

@@ -2353,8 +2353,8 @@ select.uk-form-width-mini {
 }
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../fonts/fontawesome-webfont.eot");
-  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2") format('woff2'), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype");
+  src: url("../resources/fonts/fontawesome-webfont.eot");
+  src: url("../resources/fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../resources/fonts/fontawesome-webfont.woff2") format('woff2'), url("../resources/fonts/fontawesome-webfont.woff") format("woff"), url("../resources/fonts/fontawesome-webfont.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
