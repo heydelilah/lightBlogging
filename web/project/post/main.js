@@ -18,10 +18,6 @@ define(function(require, exports){
 
 	var Home = {
 		init: function(config){
-
-
-			// this.$config = config;
-
 			
 			var self = this;
 
@@ -61,7 +57,7 @@ define(function(require, exports){
 
 		},
 		eventAddPost: function(ev){
-			console.log('add post');
+			window.location.hash = "#post/edit";
 		},
 		getContainer: function(){
 			return this.$doms;

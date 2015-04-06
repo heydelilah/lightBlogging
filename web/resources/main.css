@@ -55,14 +55,20 @@
 .mb2 {
   margin-bottom: 2em !important;
 }
-.G-layout {
-  margin: 0 auto;
-  width: 1000px;
-}
 .G-frameHeader {
+  height: 100px;
+  background: #333;
   margin-bottom: 30px;
 }
+.G-frameHeaderContainer {
+  width: 1000px;
+  margin: 0 auto;
+}
 .G-frameHeaderLogo {
+  color: #eee;
+  height: 100px;
+  font-size: 30px;
+  line-height: 100px;
   display: inline-block;
 }
 .G-frameHeaderLogo img {
@@ -70,7 +76,16 @@
   height: 100px;
 }
 .G-frameHeaderInfo {
+  height: 100px;
+  line-height: 100px;
   float: right;
+}
+.G-frameHeaderInfo a {
+  color: #ddd;
+  margin-left: 10px;
+}
+.G-frameHeaderInfo a:hover {
+  color: #fff;
 }
 .G-frameHeaderNav {
   display: none;
@@ -96,6 +111,10 @@
 }
 .G-frameHeaderNav li a:hover {
   color: green;
+}
+.G-frameBody {
+  width: 1000px;
+  margin: 0 auto;
 }
 .P-post .M-article .post {
   overflow: hidden;

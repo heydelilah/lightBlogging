@@ -10,11 +10,11 @@ define(function(require, exports){
 			var self = this;
 
 			// 创建底层容器
-			var el = this.$el = $('<div class="P-detail"/>').appendTo(config.target);
+			var el = this.$el = $('<div class="P-postEdit"/>').appendTo(config.target);
 
 			// 从服务器加载模版html文件
 			var self = this;
-			util.loadTpl('detail.html', function(file){
+			util.loadTpl('post/edit.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
@@ -22,8 +22,6 @@ define(function(require, exports){
 
 				// 插入到浏览器页面
 				el.append(dom);
-
-				self.load(config.param);
 			});
 		}
 	}
