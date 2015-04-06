@@ -1,6 +1,21 @@
 define(function(require, exports){
 	var $ = require('jquery');
 
+	// 切换场景
+	function changeScene(name){
+		var html = global.frame;
+
+		var cons = html.find('.G-frameContainer');
+		cons.hide();
+
+		var elm = html.find('div[data-type="'+name+'"]');
+		if(elm && elm.length){
+			elm.show();
+			return;
+		}
+	}
+	exports.changeScene = changeScene;
+
 	/**
 	 * 创建模块
 	 * 1切容器； 2 引入模块，并执行
@@ -19,17 +34,9 @@ define(function(require, exports){
 
 		// 如果没有指明，一律执行切容器
 		if(name != 'frame'){
-			var html = global.frame;
-
-			var cons = html.find('.G-frameContainer');
-			cons.hide();
-
-			var elm = html.find('div[data-type="'+name+'"]');
-			if(elm && elm.length){
-				elm.show();
-				return;
-			}
+			changeScene(name);
 		}
+
 
 		var url = window.ROOT(uri);
 		var type = url;
@@ -71,6 +78,8 @@ define(function(require, exports){
 				}
 			});
 
+			// 新建实例，保存在全局变量中
+			global[name] = mod;
 		});
 	}
 	exports.create = create;
@@ -78,5 +87,9 @@ define(function(require, exports){
 
 	// 全局变量
 	var global = exports._ = {};
+
+	exports.get = function(name){
+		return global[name] || null;
+	};
 
 });

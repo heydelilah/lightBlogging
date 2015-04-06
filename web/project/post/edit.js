@@ -1,6 +1,7 @@
 define(function(require, exports){
 	var util = require('util');
 	var $ = require('jquery');
+	var editor = require('kindeditor');
 	var handlebars = require('handlebars');
 
 
@@ -22,7 +23,83 @@ define(function(require, exports){
 
 				// 插入到浏览器页面
 				el.append(dom);
+
+				// 编辑器
+				var option = {
+					basePath: 'web/libs/kindeditor/',
+				}
+
+				self.$editor = KindEditor.create('#editor_id', option);
+
+				// 绑定按钮点击事件
+				el.find('.save').on('click', self, self.eventSave);
+				el.find('.cancel').on('click', self, self.eventCancel);
 			});
+		},
+		eventSave: function(ev){
+			var self = ev.data;
+
+			var data = self.getData();
+
+			if(!self.validate(data)){
+				return false;
+			}
+
+			self.save(data);
+
+		},
+		save: function(data){
+
+			$.ajax({
+				url: "post/create",
+				data: data,
+				type: "POST",
+				context: document.body
+			}).done(this.onSave).fail(function() {
+				alert( "create post failed" );
+			});
+
+		},
+		onSave: function(data){
+			console.log('save done');
+			window.location.hash = '#post';
+		},
+		getData: function(){
+			var el = this.$el;
+
+			var data = {
+				'Title': el.find('.title').val(),
+				'Channel': el.find('.channel').val() || 1,
+				'Content': this.$editor.html(),
+				'Tag': el.find('.tag').val() || 1
+			};
+
+			return data;
+		},
+		validate: function(data){
+			if(!data.Title){
+				alert('请输入文章标题');
+				return false;
+			}
+
+			if(!data.Content){
+				alert('请输入文章内容');
+				return false;
+			}
+
+
+			return true;
+		},
+		eventCancel: function(ev){
+			window.location.hash = "#post";
+		},
+		reset: function(){
+			var el = this.$el;
+
+			el.find('.title').val('');
+			el.find('.channel').val('');
+			this.$editor.html('');
+			el.find('.tag').val('');
 		}
 	}
 	exports.base = Edit;

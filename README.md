@@ -2,6 +2,9 @@
 
  一个轻博客。
 
+#### 开发目的：
+
+尝试独立完成一个完整的web小项目，包括原型设计、视觉设计、前端界面、交互逻辑、数据库设计、后端逻辑等。 
 
 #### 基本功能：
 
@@ -29,3 +32,9 @@
 
 - Balsamiq Mockups 3 -原型设计
 - Koala －LESS编译工具
+
+#### 运行：
+
+- 启动 Mongo 数据库: `mongod`
+- 启动 Nodejs 服务器：`node server/index.js`
+- 浏览器访问：`http://localhost:8888`

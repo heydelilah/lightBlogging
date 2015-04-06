@@ -24,6 +24,7 @@ define(function(require, exports){
 				// 绑定按钮事件
 				el.find('.buttons .login').on('click', self.eventLogin);
 				el.find('.buttons .signUp').on('click', self.eventSignup);
+				el.find('.G-frameHeaderLogo').on('click', self.eventBackHome);
 
 
 				// 缓存dom元素
@@ -32,6 +33,9 @@ define(function(require, exports){
 				// 加载完成，执行回调，返回上一级
 				callback();
 			});
+		},
+		eventBackHome: function(ev){
+			window.location.hash = "#post";
 		},
 		eventLogin: function(ev){
 			console.log(arguments);

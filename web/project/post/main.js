@@ -21,6 +21,8 @@ define(function(require, exports){
 			
 			var self = this;
 
+			this.$config = config;
+
 			// 创建底层容器
 			var el = this.$el = $('<div class="P-post"/>').appendTo(config.target);
 
@@ -37,24 +39,24 @@ define(function(require, exports){
 				// 绑定按钮事件
 				el.find('.buttons .add').on('click', self.eventAddPost);
 
-
 				// 请求数据
-				$.ajax({
-					url: "post/list",
-					context: document.body
-				}).done(function(data) {
-
-					for (var i = 0; i < data.length; i++) {
-						if(data[i].content){
-							self.createPost(data[i]);
-						}
-					};
-				}).fail(function() {
-					alert( "load post data failed" );
-				});
+				self.load();
 			});
-
-
+		},
+		load: function(){
+			$.ajax({
+				url: "post/list",
+				context: document.body
+			}).done(this.onData.bind(this)).fail(function() {
+				alert( "load post data failed" );
+			});
+		},
+		onData: function(data){
+			for (var i = 0; i < data.length; i++) {
+				if(data[i].content || data[i].Content){
+					this.createPost(data[i]);
+				}
+			};
 		},
 		eventAddPost: function(ev){
 			window.location.hash = "#post/edit";
@@ -62,22 +64,32 @@ define(function(require, exports){
 		getContainer: function(){
 			return this.$doms;
 		},
+		reload: function(){
+			this.$el.find('.post').empty();
+			this.load();
+		},
 		// 创建文章
 		createPost: function(data){
+			var c = this.$config;
 			var target = this.$el.find('.post');
 
 			data = this.tranData(data);
 
-			// 从服务器加载模版html文件
-			util.loadTpl('post/article.html', function(file){
+			if(!c.tpl){
+				// 从服务器加载模版html文件
+				var self = this;
+				util.loadTpl('post/article.html', function(file){
 
-				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
-				var dom = template(data)
+					// 使用 handlebars 解析
+					var template = c['tpl'] = Handlebars.compile(file);
+					var dom = template(data);
 
-				// 插入到浏览器页面
-				target.append(dom);
-			});
+					// 插入到浏览器页面
+					target.append(dom);
+				});
+			}else{
+				target.append(c.tpl(data));
+			}
 		},
 		tranData: function(data){
 			for(var name in data){

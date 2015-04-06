@@ -55,6 +55,10 @@ exports.core = Core;
 
 // 文章
 var Post = {
+
+	// 全局自增id
+	$counter: 0,
+
 	// 获取post的全部数据
 	list: function(response){
 		if(db){
@@ -71,6 +75,7 @@ var Post = {
 			});
 		}
 	},
+	// 获取单条post数据
 	info: function(response, request){
 		if (request.method == 'GET'){
 			var arg = url.parse(request.url).query;
@@ -87,8 +92,48 @@ var Post = {
 				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
 				response.write(data);
 				response.end();
-
 			});
+		}
+	},
+	// 新建文章
+	create: function(response, request){
+		var self = this;
+		if(db){
+			if (request.method == 'POST'){
+				var body = '';
+
+				request.on('data', function (data) {
+					body += data;
+				});
+
+				request.on('end', function () {
+					var data = querystring.parse(body);
+
+					var collection = db.collection('post');
+
+					console.log(data);
+					
+					self.$counter++;
+					
+					collection.insert({
+						'Id': self.$counter,				// 自增
+						'Title': data.Title || '',
+						'Content': data.Content || '',
+						'Channel': data.Channel || 1,
+						'Tag': data.Tag || 1,
+						'CreateTime': 0,
+						'UpdateTime': 0,
+						'UserId': 1
+					}, {w: 1}, function(err, records){
+						console.log("Record added as "+records[0]);
+					});
+
+					// 假设都是成功的
+					response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+					response.write(JSON.stringify({"Id": self.$counter}));
+					response.end();
+				});
+			}
 		}
 	}
 }
@@ -132,7 +177,7 @@ var Comment = {
 		}
 
 	}
-}
+};
 exports.comment = Comment;
 
 // 用户

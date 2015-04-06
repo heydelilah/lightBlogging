@@ -4,16 +4,38 @@ define(function(require, exports){
 
 	// 列表页
 	exports.onMain = function(boot,data){
-		core.create('postList', 'web/project/post/main.base');
+		var name = 'postList';
+		var mod = core.get(name);
+		if(!mod){
+			core.create(name, 'web/project/post/main.base');	
+		}else{
+			core.changeScene(name);
+			mod.reload();
+		}
 	};
 
 	// 详情页
 	exports.onDetail = function(boot,data){
-		core.create('postDetail', 'web/project/post/detail.base', {'param': data.param});
+		var name = 'postDetail';
+		var mod = core.get(name);
+		if(!mod){
+			core.create(name, 'web/project/post/detail.base', {'param': data.param});
+		}else{
+			core.changeScene(name);
+			// mod.reload();
+		}
 	};
 
 	// 编辑页
 	exports.onEdit = function(boot, data){
-		core.create('postEdit', 'web/project/post/edit.base');
+		var name = 'postEdit';
+		var mod = core.get(name);
+		if(!mod){
+			core.create(name, 'web/project/post/edit.base');	
+		}else{
+			core.changeScene(name);
+			mod.reset();
+		}
+
 	}
 });

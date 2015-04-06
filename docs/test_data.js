@@ -1,77 +1,66 @@
 静态数据
+=====================
 
-用户
-==========
+reset
+============
+db.user.drop();
+db.post.drop();
+db.comment.drop();
 
-1, Deliah, delilah@mail.com, 123, [], admin
+db.user.insert({
+	"Id": 1,
+	"Name": "Delilah",
+	"Email": "delilah@mail.com",
+	"Password": "123",
+	"Role": 1
+});
+db.post.insert({
+	"Id": 1,
+	"Title": "Death With Dignity - Sufjan Stevens",
+	"Content": "<p data=\"ddd\">test</p>",
+	"UserId": 1,
+	"CreateTime": "1428117088028",
+	"UpdateTime": "1428117088028",
+	"Channel": 1,
+	"Tag": 1
+});
+db.post.insert({
+	"Id": 2,
+	"Title": "Space Oddity",
+	"Content": "",
+	"UserId": 1,
+	"CreateTime": "1428135140155",
+	"UpdateTime": "1428135140155",
+	"Channel": 1,
+	"Tag": 1
+});
+db.comment.insert({
+	"Id": 3,
+	"Content": "Thank you all.",
+	"PostId": 1,
+	"UserId": 1
+});
+db.comment.insert({
+	"Id": 2,
+	"Content": "I am visitor~, I love this post.",
+	"PostId": 1,
+	"UserId": 0,
+	"Name": "vistors",
+	"Email": "vistors@mail.com"
+});
+db.comment.insert({
+	"Id": 1,
+	"Content": "Hi, how are you ? I love this post.",
+	"PostId": 1,
+	"UserId": 2
+});
 
-var user = {
-	"id": 1,
-	"name": "Delilah",
-	"email": "delilah@mail.com",
-	"password": "123",
-	"role": 1
-}
 
-post
-=========
-var post = {
-	"id": 1,
-	"title": "Death With Dignity - Sufjan Stevens",
-	"content": "<p data=\"ddd\">test</p>",
-	"userId": 1,
-	"createTime": "1428117088028",
-	"updateTime": "1428117088028",
-	"channel": 1,
-	"tag": 1
-
-}
-
-var post = {
-	"id": 2,
-	"title": "Space Oddity",
-	"content": "",
-	"userId": 1,
-	"createTime": "1428135140155",
-	"updateTime": "1428135140155",
-	"channel": 1,
-	"tag": 1
-
-}
 
 
 channel
 =========
 id, name, desc, creator, createTime, updateTime
-1 
-comment
-=========
-id, content, postId(所属文章), userId, createTime
-var comment = [
-	// 楼主
-	{
-		"id": 3,
-		"content": "Thank you all."
-		"postId": 1,
-		"userId": 1
-	},
-	// 游客
-	{
-		"id": 2,
-		"content": "I am visitor~, I love this post."
-		"postId": 1,
-		"userId": 0,
-		"name": "vistors",
-		"email": "vistors@mail.com"
-	},
-	// 会员
-	{
-		"id": 1,
-		"content": "Hi, how are you ? I love this post."
-		"postId": 1,
-		"userId": 2
-	}
-]
 
 role
 =========
@@ -80,8 +69,3 @@ id name, rights
 2, user,
 
 
-
-按频道过滤
-按发布时间排序
-按作者排序
-按标签排序

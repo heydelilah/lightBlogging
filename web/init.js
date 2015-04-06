@@ -22,7 +22,8 @@
 				"router":		ROOT("web/public/router"),
 				"util":			ROOT("web/public/util"),
 				"core":			ROOT("web/public/core"),
-				"handlebars": 	"@libs/handlebars-v3.0.0.js"
+				"handlebars": 	"@libs/handlebars-v3.0.0.js",
+				"kindeditor":	"@libs/kindeditor/kindeditor-min.js"
 			},
 			paths: {
 				"@libs":		ROOT("web/libs")
