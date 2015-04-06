@@ -26,10 +26,10 @@ define(function(require, exports){
 			var self = this;
 
 			// 创建底层容器
-			var el = this.$el = $('<div class="P-home"/>').appendTo(config.target);
+			var el = this.$el = $('<div class="P-post"/>').appendTo(config.target);
 
 			// 从服务器加载模版html文件
-			util.loadTpl('home.html', function(file){
+			util.loadTpl('post/main.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
@@ -73,7 +73,7 @@ define(function(require, exports){
 			data = this.tranData(data);
 
 			// 从服务器加载模版html文件
-			util.loadTpl('article.html', function(file){
+			util.loadTpl('post/article.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);

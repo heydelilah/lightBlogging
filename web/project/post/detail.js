@@ -23,11 +23,11 @@ define(function(require, exports){
 			var self = this;
 
 			// 创建底层容器
-			var el = this.$el = $('<div class="P-detail"/>').appendTo(config.target);
+			var el = this.$el = $('<div class="P-postDetail"/>').appendTo(config.target);
 
 			// 从服务器加载模版html文件
 			var self = this;
-			util.loadTpl('detail.html', function(file){
+			util.loadTpl('post/detail.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
@@ -72,13 +72,13 @@ define(function(require, exports){
 			});
 		},
 		buildPost: function(data){
-			var target = this.$el.find('.P-detailPost');
+			var target = this.$el.find('.P-postDetailContent');
 
 			data = this.tranData(data);
 
 			// 从服务器加载模版html文件
 			var self = this;
-			util.loadTpl('article.html', function(file){
+			util.loadTpl('post/article.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
@@ -90,9 +90,9 @@ define(function(require, exports){
 
 		},
 		buildComment: function(data){
-			var target = this.$el.find('.P-detailComment .content');
+			var target = this.$el.find('.P-postDetailComment .content');
 
-			util.loadTpl('comment.html', function(file){
+			util.loadTpl('comment/comment.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);

@@ -97,18 +97,18 @@
 .G-frameHeaderNav li a:hover {
   color: green;
 }
-.P-home .M-article .post {
+.P-post .M-article .post {
   overflow: hidden;
   max-height: 250px;
 }
-.P-home .M-article .metaItem {
+.P-post .M-article .metaItem {
   margin-right: 10px;
   display: inline-block;
 }
-.P-detail .M-article .metaItem {
+.P-postDetail .M-article .metaItem {
   margin-right: 10px;
   display: inline-block;
 }
-.P-detail .M-article .showAll {
+.P-postDetail .M-article .showAll {
   display: none;
 }

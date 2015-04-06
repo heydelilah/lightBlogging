@@ -14,7 +14,7 @@ define(function(require, exports){
 			var el = this.$el = $('<div class="P-user" />').appendTo(c.target);
 
 			// 从服务器加载模版html文件
-			util.loadTpl('signup.html', function(file){
+			util.loadTpl('user/signup.html', function(file){
 
 				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
