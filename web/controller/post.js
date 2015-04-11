@@ -28,13 +28,18 @@ define(function(require, exports){
 
 	// 编辑页
 	exports.onEdit = function(boot, data){
+		var id = data.param;
 		var name = 'postEdit';
 		var mod = core.get(name);
 		if(!mod){
-			core.create(name, 'web/project/post/edit.base');	
+			core.create(name, 'web/project/post/edit.base', {'param': id});	
 		}else{
 			core.changeScene(name);
-			mod.reset();
+			if(id){
+				mod.load(id);
+			}else{
+				mod.reset();
+			}
 		}
 
 	}

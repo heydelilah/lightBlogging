@@ -24,7 +24,7 @@ define(function(require, exports){
 			this.$config = config;
 
 			// 创建底层容器
-			var el = this.$el = $('<div class="P-post"/>').appendTo(config.target);
+			var el = this.$el = $('<div class="P-postList"/>').appendTo(config.target);
 
 			// 从服务器加载模版html文件
 			util.loadTpl('post/main.html', function(file){
@@ -37,7 +37,7 @@ define(function(require, exports){
 				el.append(dom);
 
 				// 绑定按钮事件
-				el.find('.P-postButtons .add').on('click', self.eventAddPost);
+				el.find('.P-postListButtons .add').on('click', self.eventAddPost);
 
 				// 请求数据
 				self.load();
@@ -52,11 +52,34 @@ define(function(require, exports){
 			});
 		},
 		onData: function(data){
-			for (var i = 0; i < data.length; i++) {
-				if(data[i].content || data[i].Content){
-					this.createPost(data[i]);
-				}
-			};
+			var self = this;
+			
+			util.loadTpl('post/article.html', function(file){
+				var template = Handlebars.compile(file);
+				
+				// 创建文章
+				for (var i = 0; i < data.length; i++) {
+
+					var value = self.tranData(data[i]);
+
+					article = template(value);
+
+					self.$el.find('.P-postListContent').append(article);
+				};
+
+				// 绑定事件
+				self.$el.find('.pencilEdit').click(self.eventGoEdit);
+				self.$el.find('.showAll').click(self.eventShowAll);
+			});
+		},
+		eventShowAll: function(ev){
+			$(this).toggleClass('act');
+			$(this).siblings('.post').toggleClass('act');
+		},
+		// 点击铅笔进入编辑页
+		eventGoEdit: function(ev){
+			var id = $(this).attr('data-id');
+			window.location.hash = '#post/edit/'+id;
 		},
 		eventAddPost: function(ev){
 			window.location.hash = "#post/edit";
@@ -65,31 +88,8 @@ define(function(require, exports){
 			return this.$doms;
 		},
 		reload: function(){
-			this.$el.find('.P-postContent').empty();
+			this.$el.find('.P-postListContent').empty();
 			this.load();
-		},
-		// 创建文章
-		createPost: function(data){
-			var c = this.$config;
-			var target = this.$el.find('.P-postContent');
-
-			data = this.tranData(data);
-
-			if(!c.tpl){
-				// 从服务器加载模版html文件
-				var self = this;
-				util.loadTpl('post/article.html', function(file){
-
-					// 使用 handlebars 解析
-					var template = c['tpl'] = Handlebars.compile(file);
-					var dom = template(data);
-
-					// 插入到浏览器页面
-					target.append(dom);
-				});
-			}else{
-				target.append(c.tpl(data));
-			}
 		},
 		tranData: function(data){
 			for(var name in data){

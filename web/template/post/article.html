@@ -1,6 +1,14 @@
 <article class="M-article uk-article mb2">
 
-	<a href="#post/detail/{{Id}}" class="uk-article-title uk-h2 block mb15">{{Title}} </a>
+	<div class="M-articleTitle">
+		
+		<!-- 标题 -->
+		<a href="#post/detail/{{Id}}" class="uk-article-title uk-h2 mb15 br1">{{Title}} </a>
+
+		<!-- 铅笔－可编辑 -->
+		<i data-id="{{Id}}" title="编辑" class="uk-icon-pencil pencilEdit"></i>
+	</div>
+
 
 	
 	<div class="uk-article-meta">
@@ -33,7 +41,8 @@
 	</div>
 
 	<div class="showAll mt1">
-		<a> > 显示全文</a>
+		<a class="unfold"> > 显示全文</a>
+		<a class="fold">收起</a>
 	</div>
 
 </article>

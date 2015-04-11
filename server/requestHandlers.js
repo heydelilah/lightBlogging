@@ -194,6 +194,48 @@ var Post = {
 				});
 			}
 		}
+	},
+	// 新建文章
+	update: function(response, request){
+		var self = this;
+		if(db){
+			if (request.method == 'POST'){
+				var body = '';
+
+				request.on('data', function (data) {
+					body += data;
+				});
+
+				request.on('end', function () {
+					var data = querystring.parse(body);
+
+					var collection = db.collection('post');
+
+					console.log(data);
+					
+					
+					collection.update({
+						'Id': +data.Id
+					},{ $set: {
+						'Title': data.Title || '',
+						'Content': data.Content || '',
+						'Channel': data.Channel || 1,
+						'Tag': data.Tag || 1,
+						'CreateTime': 0,
+						'UpdateTime': 0,
+						'UserId': 1
+					}}, function(err, records){
+						console.log(err);
+						console.log("Record added as "+records);
+					});
+
+					// 假设都是成功的
+					response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+					response.write(JSON.stringify(data));
+					response.end();
+				});
+			}
+		}
 	}
 }
 exports.post = Post;

@@ -105,12 +105,13 @@ define(function(require, exports){
 					var option = {
 						basePath: 'web/libs/kindeditor/',
 						items:[
-							'source', 'code', '|', 'justifyleft', 'justifycenter', 'justifyright',
+							'code', '|', 'justifyleft', 'justifycenter', 'justifyright',
 							'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-							'superscript',  '|',							'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+							'superscript',  '|','formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
 							'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
-							'flash', 'media', 'table', 'hr', 'emoticons'
-						]
+							'flash', 'hr', 'emoticons'
+						],
+						resizeType: 0
 					};
 
 					self.$editor = KindEditor.create('#editorComment', option);

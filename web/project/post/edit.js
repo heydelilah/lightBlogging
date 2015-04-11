@@ -34,7 +34,37 @@ define(function(require, exports){
 				// 绑定按钮点击事件
 				el.find('.save').on('click', self, self.eventSave);
 				el.find('.cancel').on('click', self, self.eventCancel);
+
+				var id = config.param;
+				if(id){
+					self.load(id);
+				}
 			});
+		},
+		load: function(id){
+			var self = this;
+
+			// 加载文章数据
+			$.ajax({
+				url: "post/info",
+				data: {'Id': id},
+				context: document.body
+			}).done(function(data) {
+
+				self.setData(data[0]);
+
+			}).fail(function() {
+				alert( "load post data failed" );
+			});
+
+		},
+		setData: function(data){
+			var el = this.$el;
+			this.$id = data.Id;
+			el.find('.title').val(data.Title);
+			el.find('.channel').val(data.Channel);
+			this.$editor.html(data.Content);
+			el.find('.tag').val(data.Tag);
 		},
 		eventSave: function(ev){
 			var self = ev.data;
@@ -46,19 +76,18 @@ define(function(require, exports){
 			}
 
 			self.save(data);
-
 		},
 		save: function(data){
+			var url = this.$id ? "post/update" : "post/create";
 
 			$.ajax({
-				url: "post/create",
+				url: url,
 				data: data,
 				type: "POST",
 				context: document.body
 			}).done(this.onSave).fail(function() {
 				alert( "create post failed" );
 			});
-
 		},
 		onSave: function(data){
 			console.log('save done');
@@ -73,6 +102,10 @@ define(function(require, exports){
 				'Content': this.$editor.html(),
 				'Tag': el.find('.tag').val() || 1
 			};
+
+			if(this.$id){
+				data.Id = this.$id;
+			}
 
 			return data;
 		},
@@ -95,6 +128,8 @@ define(function(require, exports){
 		},
 		reset: function(){
 			var el = this.$el;
+
+			this.$id = 0;
 
 			el.find('.title').val('');
 			el.find('.channel').val('');

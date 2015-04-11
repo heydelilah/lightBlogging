@@ -1,22 +1,54 @@
 .P-post{
 	// 主页
-	.M-article{
-		.post{
-			overflow: hidden;
-			max-height: 250px;
-		}
+	&List{
+		.M-article{
+			&Title{
+				.pencilEdit{
+					color: #666;
+					margin-bottom: 5px;
+					&:hover{
+						color: #000;
+					}
+				}	
+			}
+			.post{
+				overflow: hidden;
+				max-height: 250px;
+				&.act{
+					max-height: none;
+				}
+			}
 
-		.metaItem{
-			margin-right: 10px;
-			display: inline-block;
-		}
+			.metaItem{
+				margin-right: 10px;
+				display: inline-block;
+			}
 
+			.showAll{
+				.unfold{
+					display: inline;
+				}
+				.fold{
+					display: none;
+				}
+				&.act{
+					.unfold{
+						display: none;
+					}
+					.fold{
+						display: inline;
+					}
+				}
+			}
+		}
 	}
 
 	// 详情页
 	&Detail{
 		.M-article{
-			
+			.pencilEdit{
+				display: none;
+			}
 			.metaItem{
 				margin-right: 10px;
 				display: inline-block;
@@ -26,11 +58,21 @@
 				display: none
 			}
 		}
+
+		// 编辑器
+		.ke-container {
+			margin-left: 46px;
+			margin-top: -20px;
+		}
+
+		&Comment{
+
+		}
+
 	}
 
 
 	// 编辑页
 	&Edit{
-
 	}
 }
