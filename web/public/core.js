@@ -86,10 +86,31 @@ define(function(require, exports){
 
 
 	// 全局变量
-	var global = exports._ = {};
+	var global = exports._ = {
+
+		// 用户信息
+		user: {
+			Id: 0,
+			Name: '',
+			Email: '',
+			Role: 'visitor', // 游客，会员，管理员
+		}
+	};
 
 	exports.get = function(name){
 		return global[name] || null;
 	};
+
+
+	exports.setUser = function(data){
+		global.user = data;
+	};
+
+	exports.getUser = function(name){
+		if(name){
+			return global.user[name];
+		}
+		return global.user;
+	}
 
 });

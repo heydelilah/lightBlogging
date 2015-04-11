@@ -2,6 +2,7 @@ var fs = require('fs');
 var url = require('url');
 var querystring = require("querystring");
 var mongodb = require('mongodb');
+var util = require('util');
 
 // 数据库
 var db = null;
@@ -15,6 +16,14 @@ var Core = {
 		comment: 0,
 		channel: 0,
 		tag: 0
+	},
+
+	// 用户信息
+	$user: {
+		Id: 0,
+		Name: '',
+		Email: '',
+		Role: 'visitor', // 游客，会员，管理员
 	},
 
 	// 启动
@@ -195,7 +204,7 @@ var Post = {
 			}
 		}
 	},
-	// 新建文章
+	// 更新文章
 	update: function(response, request){
 		var self = this;
 		if(db){
@@ -237,6 +246,7 @@ var Post = {
 			}
 		}
 	}
+	// 删除文章
 }
 exports.post = Post;
 
@@ -249,23 +259,66 @@ var Comment = {
 			var param = querystring.parse(arg);
 		}
 
-		if(db){
-			var cm = db.collection('comment');
+		var cm = db.collection('comment');
 
-			// @todo 要取到用户的信息
+		// @todo 要取到用户的信息
 
-			cm.find({'PostId': +param.Id}).toArray(function(err, cmData) {
+		cm.find({'PostId': +param.Id}).toArray(function(err, cmData) {
 
-				var data = JSON.stringify(cmData);
+			var data = JSON.stringify(cmData);
 
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(data);
+			response.end();
+
+		});
+
+	},
+	// 新增评论
+	create: function(response, request){
+		var cm = db.collection('comment');
+
+		// 自增
+		Core.updateCounter('comment');
+
+		if (request.method == 'POST'){
+			var body = '';
+
+			request.on('data', function (data) {
+				body += data;
+			});
+
+			request.on('end', function () {
+				var data = querystring.parse(body);
+
+				var user = Core.$user;
+				var isVisitor = user.Role== 'visitor';
+				
+				var date = new Date();
+				cm.insert({
+					'Id': Core.$counter.comment,				
+					'PostId': +data.PostId,
+					'UserId': +data.UserId,
+					'Content': data.Content || '',
+					'Name': isVisitor ? data.Name: user.Name,
+					'Email': isVisitor ? data.Email: user.Email,
+					'UpdateTime': date.getTime(),
+					'CreateTime': date.getTime()
+				}, {w: 1}, function(err, records){
+					console.log("Record added as "+records);
+				});
+
+				// 假设都是成功的
 				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-				response.write(data);
+				response.write(JSON.stringify({"Id": Core.$counter.comment}));
 				response.end();
-
 			});
 		}
-
 	}
+	// 删除评论
+	// @todo 仅发布者或者管理员或者留言者本人可修改
+	// 修改评论
+	// @todo 仅留言者本人或者管理员可修改
 };
 exports.comment = Comment;
 

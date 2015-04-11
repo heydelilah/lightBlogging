@@ -22,13 +22,13 @@ define(function(require, exports){
 			core.create(name, 'web/project/post/detail.base', {'param': data.param});
 		}else{
 			core.changeScene(name);
-			mod.reload(data.param);
+			mod.reload(+data.param);
 		}
 	};
 
 	// 编辑页
 	exports.onEdit = function(boot, data){
-		var id = data.param;
+		var id = +data.param;
 		var name = 'postEdit';
 		var mod = core.get(name);
 		if(!mod){

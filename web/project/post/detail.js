@@ -4,6 +4,9 @@ define(function(require, exports){
 	var handlebars = require('handlebars');
 	var editor = require('kindeditor');
 
+	var comment = require('../comment');
+	var core = require('core');
+
 	// 数据映射表
 	var MAPPING = {
 		userId: {
@@ -40,6 +43,8 @@ define(function(require, exports){
 				el.append(dom);
 
 				self.load(config.param);
+				
+				self.buildComment(config.param);
 			});
 
 
@@ -61,24 +66,14 @@ define(function(require, exports){
 				alert( "load post data failed" );
 			});
 
-			// 加载评论数据
-			$.ajax({
-				url: "comment/list",
-				data: {'Id': param},
-				context: document.body
-			}).done(function(data) {
-
-				self.buildComment(data);
-
-			}).fail(function() {
-				alert( "load post data failed" );
-			});
 		},
 		reload: function(param){
 			this.$el.find('.P-postDetailContent').empty();
-			this.$el.find('.P-postDetailComment .displayArea').empty();
+			this.$el.find('.P-postDetailCommentList').empty();
 
 			this.load(param);
+
+			this.buildComment(param);
 		},
 		buildPost: function(data){
 			var c = this.$config;
@@ -100,57 +95,27 @@ define(function(require, exports){
 					// 插入到浏览器页面
 					target.append(dom);
 
-
-					// 编辑器
-					var option = {
-						basePath: 'web/libs/kindeditor/',
-						items:[
-							'code', '|', 'justifyleft', 'justifycenter', 'justifyright',
-							'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-							'superscript',  '|','formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-							'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
-							'flash', 'hr', 'emoticons'
-						],
-						resizeType: 0
-					};
-
-					self.$editor = KindEditor.create('#editorComment', option);
-
 				});
 			}else{
 				target.append(c.tplPost(data));
 			}
 		},
-		buildComment: function(data){
-			var c = this.$config;
+		buildComment: function(id){
+			var el = this.$el;
 
-			var target = this.$el.find('.P-postDetailComment .displayArea');
+			comment.form.init({
+				target: el.find('.P-postDetailCommentForm'),
+				postId: id
+			});
 
-			var i = null;
-			if(!c.tplComment){
+			comment.list.init({
+				target: el.find('.P-postDetailCommentList'),
+				postId: id
+			});
 
-				util.loadTpl('comment/comment.html', function(file){
-
-					// 使用 handlebars 解析
-					var template = c['tplComment'] = Handlebars.compile(file);
-
-					for (i = 0; i < data.length; i++) {
-
-						var dom = template(data[i]);
-
-						// 插入到浏览器页面
-						target.append(dom);
-					};
-				});
-			}else{
-				// target.append(c.tplComment(data));
-
-				for (i = 0; i < data.length; i++) {
-
-					target.append(c.tplComment(data[i]));
-				};
-
-			}
+		},
+		addComment: function(data){
+			comment.list.buildItem(data);
 		},
 		tranData: function(data){
 			for(var name in data){
