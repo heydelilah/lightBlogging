@@ -4,6 +4,7 @@ define(function(require, exports){
 	var core = require('core');
 	var handlebars = require('handlebars');
 
+	// 全局框架
 	var Frame = {
 		init: function(config, callback){
 			var self = this;
@@ -21,27 +22,55 @@ define(function(require, exports){
 				// 插入到浏览器页面
 				el.append(dom);
 
-				// 绑定按钮事件
-				el.find('.buttons .login').on('click', self.eventLogin);
-				el.find('.buttons .signUp').on('click', self.eventSignup);
+				// 绑定点击事件
 				el.find('.G-frameHeaderLogo').on('click', self.eventBackHome);
+				el.find('.logout').on('click', self.eventLogout);
 
-
-				// 缓存dom元素
-				core._.frame = el.find('.G-frameBody');
 
 				// 加载完成，执行回调，返回上一级
 				callback();
+
+				// 更新用户信息
+				if(config.userInfo){
+					self.updateHeader(config.userInfo);	
+				}
 			});
 		},
+		getDOM: function(){
+			return this.$el.find('.G-frameBody');
+		},
+		// 返回主页
 		eventBackHome: function(ev){
 			window.location.hash = "#post";
 		},
-		eventLogin: function(ev){
-			console.log(arguments);
+		// 退出登录
+		eventLogout: function(ev){
+			var result = confirm('确认退出登录吗？');
+			if(result){
+				$.ajax({
+					url: "user/logout",
+					context: document.body
+				}).done(function(){
+					alert('已成功退出。')
+					window.location.hash = "#post";
+				});
+			}
 		},
-		eventSignup: function(ev){
-			window.location.hash = "#user";
+		// 更新头部用户信息栏
+		updateHeader: function(data){
+			var el = this.$el;
+
+			var btns = el.find('.buttons');
+			var info = el.find('.userInfo');
+
+			if(data){
+				info.show();
+				btns.hide();
+				info.find('.name').text(data.Name);
+			}else{
+				btns.show();
+				info.hide();
+			}
 		}
 	}
 	exports.base = Frame;

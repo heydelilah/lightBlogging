@@ -71,10 +71,6 @@
   line-height: 100px;
   display: inline-block;
 }
-.G-frameHeaderLogo img {
-  width: 100px;
-  height: 100px;
-}
 .G-frameHeaderInfo {
   height: 100px;
   line-height: 100px;
@@ -87,41 +83,33 @@
 .G-frameHeaderInfo a:hover {
   color: #fff;
 }
-.G-frameHeaderNav {
+.G-frameHeaderInfo .userInfo {
   display: none;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-}
-.G-frameHeaderNav li {
-  list-style: none;
-  float: left;
-}
-.G-frameHeaderNav li a {
-  display: inline-block;
-  width: 100px;
-  height: 30px;
-  line-height: 30px;
-  font-size: 24px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-}
-.G-frameHeaderNav li a:hover {
-  color: green;
 }
 .G-frameBody {
   width: 1000px;
   margin: 0 auto;
 }
-.P-postList .M-articleTitle .pencilEdit {
+.M-articleTitle h1 {
+  display: inline;
+}
+.M-articleTitle .op {
+  display: none;
+}
+.M-articleTitle .op .opItem {
   color: #666;
   margin-bottom: 5px;
+  margin-right: 5px;
 }
-.P-postList .M-articleTitle .pencilEdit:hover {
+.M-articleTitle .op .opItem:hover {
   color: #000;
+}
+.M-articleTitle:hover .op {
+  display: inline;
+}
+.M-article .metaItem {
+  margin-right: 10px;
+  display: inline-block;
 }
 .P-postList .M-article .post {
   overflow: hidden;
@@ -129,10 +117,6 @@
 }
 .P-postList .M-article .post.act {
   max-height: none;
-}
-.P-postList .M-article .metaItem {
-  margin-right: 10px;
-  display: inline-block;
 }
 .P-postList .M-article .showAll .unfold {
   display: inline;
@@ -146,12 +130,8 @@
 .P-postList .M-article .showAll.act .fold {
   display: inline;
 }
-.P-postDetail .M-article .pencilEdit {
-  display: none;
-}
-.P-postDetail .M-article .metaItem {
-  margin-right: 10px;
-  display: inline-block;
+.P-postDetail .M-article a:hover {
+  text-decoration: none;
 }
 .P-postDetail .M-article .showAll {
   display: none;

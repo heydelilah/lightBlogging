@@ -53,13 +53,24 @@ function route (pathname, response, request) {
 
 			response.writeHead(200, {'Content-Type': TYPES[ext]});
 			response.write(file);
-			response.end()
+			response.end();
 
 		}else{
-			console.log("No request handler found for " + pathname);
-			// 404文件没找到
-			response.writeHead(404, 'FILE NOT FOUND');
-			response.end('FILE_WAS_GONE');
+			// 对ico特殊处理
+			if(pathname.match('favicon.ico')){
+				console.log(pathname)
+				
+				var file = fs.readFileSync('web/'+pathname);
+				response.writeHead(200, {'Content-Type': 'image/x-icon'});
+				response.write(file);
+				response.end();
+
+			}else{
+				// 404文件没找到
+				console.log("No request handler found for " + pathname);
+				response.writeHead(404, 'FILE NOT FOUND');
+				response.end('FILE_WAS_GONE');
+			}
 		}
 
 	}

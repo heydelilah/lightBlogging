@@ -42,11 +42,11 @@ define(function(require, exports){
 				// 插入到浏览器页面
 				el.append(dom);
 
-				self.load(config.param);
-				
-				self.buildComment(config.param);
+				var id = config.param;
+				self.load(id);
+				self.buildCommentForm(id);
+				self.buildCommentList(id);
 			});
-
 
 		},
 		// 请求数据
@@ -73,7 +73,7 @@ define(function(require, exports){
 
 			this.load(param);
 
-			this.buildComment(param);
+			this.buildCommentList(param);
 		},
 		buildPost: function(data){
 			var c = this.$config;
@@ -95,26 +95,54 @@ define(function(require, exports){
 					// 插入到浏览器页面
 					target.append(dom);
 
+					target.find('.pencilEdit').click(self.eventEdit.bind(self, data));
+					target.find('.archive').click(self.eventArchive.bind(self, data));
+
 				});
 			}else{
 				target.append(c.tplPost(data));
 			}
 		},
-		buildComment: function(id){
+		eventEdit: function(data, ev){
+			window.location.hash = "#post/edit/"+data.Id;
+		},
+		eventArchive: function(data, ev){
+			var result = confirm('确定要删除此文章吗？');
+			if(result){
+				this.archive(data.Id);
+			}
+		},
+		// 归档文章
+		archive: function(id){
+
+			$.ajax({
+				url: "post/remove",
+				data: {'Id': id},
+				context: document.body
+			}).done(this.onArchive.bind(this)).fail(function() {
+				alert( "删除文章失败" );
+			});
+		},
+		onArchive: function(){
+			window.location.hash = '#post';
+		},
+		buildCommentForm: function(id){
 			var el = this.$el;
 
 			comment.form.init({
 				target: el.find('.P-postDetailCommentForm'),
 				postId: id
 			});
-
+		},
+		buildCommentList: function(id){
 			comment.list.init({
-				target: el.find('.P-postDetailCommentList'),
+				target: this.$el.find('.P-postDetailCommentList'),
 				postId: id
 			});
-
 		},
 		addComment: function(data){
+			var date = new Date();
+			data['CreateTime'] = date.getTime();
 			comment.list.buildItem(data);
 		},
 		tranData: function(data){

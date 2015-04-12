@@ -3,19 +3,23 @@
 	<div class="M-articleTitle">
 		
 		<!-- 标题 -->
-		<a href="#post/detail/{{Id}}" class="uk-article-title uk-h2 mb15 br1">{{Title}} </a>
+		<a href="#post/detail/{{Id}}" class="uk-article-title uk-h2">{{Title}} </a>
 
-		<!-- 铅笔－可编辑 -->
-		<i data-id="{{Id}}" title="编辑" class="uk-icon-pencil pencilEdit"></i>
+		<span class="op">
+			<!-- 铅笔－可编辑 -->
+			<i data-id="{{Id}}" title="编辑" class="uk-icon-pencil opItem pencilEdit"></i>
+			<i data-id="{{Id}}" title="删除" class="uk-icon-close opItem archive"></i>
+		</span>
+
 	</div>
 
 
 	
-	<div class="uk-article-meta">
+	<div class="uk-article-meta mt1">
 		
 		<div class="metaItem">
 			<label>作者：</label>
-			<span> {{UserId}} </span>
+			<span> {{UserName}} </span>
 		</div>
 		
 		<div class="metaItem">

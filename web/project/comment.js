@@ -128,8 +128,11 @@ define(function(require, exports){
 		
 		},
 		buildItem: function(data){
-			data['CreateTime'] = util.timeFormat(data['CreateTime'], 'YYYY-MM-dd h:m:s');
 
+			data['CreateTime'] = util.timeFormat(data['CreateTime'], 'YYYY-MM-dd h:m:s');
+			if(!data['Name']){
+				data['Name'] = '游客'; // or "匿名用户"
+			}
 			var dom = this.$template(data);
 
 			this.$el.append(dom);

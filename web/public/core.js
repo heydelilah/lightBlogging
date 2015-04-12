@@ -3,7 +3,7 @@ define(function(require, exports){
 
 	// 切换场景
 	function changeScene(name){
-		var html = global.frame;
+		var html = global.frame.getDOM();
 
 		var cons = html.find('.G-frameContainer');
 		cons.hide();
@@ -60,7 +60,7 @@ define(function(require, exports){
 				target = $(document.body);
 			}else{
 				target = $('<div data-type="'+name+'" class="G-frameContainer" />');
-				target.appendTo(global.frame);
+				target.appendTo(global.frame.getDOM());
 			}
 
 			// 合并参数
@@ -111,6 +111,11 @@ define(function(require, exports){
 			return global.user[name];
 		}
 		return global.user;
-	}
+	};
+
+	exports.updateUserInfo = function(data){
+		global.user = data;
+		global.frame.updateHeader(data);
+	};
 
 });

@@ -73,7 +73,6 @@ var Core = {
 
 		var collection = db.collection('counter');
 		collection.find().toArray(function(err, items) {
-			
 			if(!err){
 				console.log(items);
 
@@ -103,7 +102,7 @@ var Core = {
 		param[name] = now;
 
 		var collection = db.collection('counter');
-		collection.update({'id': 0}, {$set: param});			
+		collection.update({'_id': 0}, {$set: param});			
 
 	},
 
@@ -117,7 +116,7 @@ var Core = {
 
 		response.writeHead(200, {'Content-Type': 'text/html'});
 		response.write(file);
-		response.end()		
+		response.end();	
 	}
 };
 exports.core = Core;
@@ -128,125 +127,139 @@ var Post = {
 
 	// 获取post的全部数据
 	list: function(response){
-		if(db){
-			var collection = db.collection('post');
+		// 无请求参数
+		
+		var collection = db.collection('post');
+		collection.find({'IsDelete': false}).toArray(function(err, items) {
 
-			collection.find().toArray(function(err, items) {
+			var data = JSON.stringify(items);
 
-				var data = JSON.stringify(items);
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(data);
+			response.end();
 
-				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-				response.write(data);
-				response.end();
-
-			});
-		}
+		});
+		
 	},
 	// 获取单条post数据
 	info: function(response, request){
-		if (request.method == 'GET'){
-			var arg = url.parse(request.url).query;
-			var param = querystring.parse(arg);
-		}
+		// GET
+		var arg = url.parse(request.url).query;
+		var param = querystring.parse(arg);
+		
+		var collection = db.collection('post');
 
-		if(db){
-			var collection = db.collection('post');
+		collection.find({'Id': +param.Id}).toArray(function(err, items) {
+			var data = JSON.stringify(items);
 
-			collection.find({'Id': +param.Id}).toArray(function(err, items) {
-
-				var data = JSON.stringify(items);
-
-				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-				response.write(data);
-				response.end();
-			});
-		}
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(data);
+			response.end();
+		});
 	},
 	// 新建文章
 	create: function(response, request){
-		var self = this;
-		if(db){
-			if (request.method == 'POST'){
-				var body = '';
+		// POST
+		var body = '';
+		request.on('data', function (data) {
+			body += data;
+		});
 
-				request.on('data', function (data) {
-					body += data;
-				});
+		request.on('end', function () {
+			var data = querystring.parse(body);
 
-				request.on('end', function () {
-					var data = querystring.parse(body);
+			var collection = db.collection('post');
+			
+			// 自增
+			Core.updateCounter('post');
 
-					var collection = db.collection('post');
+			console.log(Core.$user)
+			
+			var date = new Date();
+			collection.insert({
+				'Id': Core.$counter.post,				
+				'Title': data.Title || '',
+				'Content': data.Content || '',
+				'Channel': data.Channel || 1,
+				'Tag': data.Tag || 1,
+				'CreateTime': date.getTime(),
+				'UpdateTime': date.getTime(),
+				"IsDelete": false,
+				// 冗余数据
+				'UserId': Core.$user.Id || 1,
+				'UserName': Core.$user.Name || ''
 
-					console.log(data);
-					
-					// 自增
-					Core.updateCounter('post');
-					
-					collection.insert({
-						'Id': Core.$counter.post,				
-						'Title': data.Title || '',
-						'Content': data.Content || '',
-						'Channel': data.Channel || 1,
-						'Tag': data.Tag || 1,
-						'CreateTime': 0,
-						'UpdateTime': 0,
-						'UserId': 1
-					}, {w: 1}, function(err, records){
-						console.log("Record added as "+records[0]);
-					});
+			}, {w: 1}, function(err, records){
+				console.log("Record added as "+records[0]);
+			});
 
-					// 假设都是成功的
-					response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-					response.write(JSON.stringify({"Id": Core.$counter.post}));
-					response.end();
-				});
-			}
-		}
+			// 假设都是成功的
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(JSON.stringify({"Id": Core.$counter.post}));
+			response.end();
+		});
 	},
 	// 更新文章
 	update: function(response, request){
-		var self = this;
-		if(db){
-			if (request.method == 'POST'){
-				var body = '';
+		// POST
+		var body = '';
 
-				request.on('data', function (data) {
-					body += data;
-				});
+		request.on('data', function (data) {
+			body += data;
+		});
 
-				request.on('end', function () {
-					var data = querystring.parse(body);
+		request.on('end', function () {
+			var data = querystring.parse(body);
 
-					var collection = db.collection('post');
+			var collection = db.collection('post');
+			
+			var date = new Date();
+			collection.update({
+				'Id': +data.Id
+			},{ $set: {
+				'Title': data.Title || '',
+				'Content': data.Content || '',
+				'Channel': data.Channel || 1,
+				'Tag': data.Tag || 1,
+				'UpdateTime': date.getTime(),
+				"IsDelete": false
+			}}, function(err, records){
+				console.log(err);
+				console.log(records);
+			});
 
-					console.log(data);
-					
-					
-					collection.update({
-						'Id': +data.Id
-					},{ $set: {
-						'Title': data.Title || '',
-						'Content': data.Content || '',
-						'Channel': data.Channel || 1,
-						'Tag': data.Tag || 1,
-						'CreateTime': 0,
-						'UpdateTime': 0,
-						'UserId': 1
-					}}, function(err, records){
-						console.log(err);
-						console.log("Record added as "+records);
-					});
+			// 假设都是成功的
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(JSON.stringify(data));
+			response.end();
+		});
+	},
+	// 删除文章 -软删
+	remove: function(response, request){
+		// GET
+		var arg = url.parse(request.url).query;
+		var param = querystring.parse(arg);
 
-					// 假设都是成功的
-					response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-					response.write(JSON.stringify(data));
-					response.end();
-				});
+		var collection = db.collection('post');
+		collection.update(
+			{
+				'Id': +param.Id
+			},
+			{ 
+				$set: {
+					'IsDelete': true
+				}
+			}, function(err, records){
+				console.log(err);
+				console.log(records);
 			}
-		}
+		);
+
+		// 假设都是成功的
+		response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+		response.write(JSON.stringify('删除文章成功'));
+		response.end();
 	}
-	// 删除文章
 }
 exports.post = Post;
 
@@ -254,16 +267,16 @@ exports.post = Post;
 var Comment = {
 	// 获取某个文章下的所有评论
 	list: function(response, request){
-		if (request.method == 'GET'){
-			var arg = url.parse(request.url).query;
-			var param = querystring.parse(arg);
-		}
+		// GET
+		var arg = url.parse(request.url).query;
+		var param = querystring.parse(arg);
 
 		var cm = db.collection('comment');
 
-		// @todo 要取到用户的信息
-
-		cm.find({'PostId': +param.Id}).toArray(function(err, cmData) {
+		cm.find({
+			'PostId': +param.Id,
+			'IsDelete': false
+		}).toArray(function(err, cmData) {
 
 			var data = JSON.stringify(cmData);
 
@@ -272,53 +285,125 @@ var Comment = {
 			response.end();
 
 		});
-
 	},
 	// 新增评论
 	create: function(response, request){
-		var cm = db.collection('comment');
 
 		// 自增
 		Core.updateCounter('comment');
 
-		if (request.method == 'POST'){
-			var body = '';
+		// POST
+		var body = '';
 
-			request.on('data', function (data) {
-				body += data;
+		request.on('data', function (data) {
+			body += data;
+		});
+
+		request.on('end', function () {
+			var data = querystring.parse(body);
+
+			// 当前登陆用户信息
+			var user = Core.$user;
+			var isVisitor = user.Role== 'visitor';
+			
+			// 当前时间
+			var date = new Date();
+			
+			var cm = db.collection('comment');
+			cm.insert({
+				'Id': Core.$counter.comment,				
+				'PostId': +data.PostId,
+				'UserId': +data.UserId,
+				'Content': data.Content || '',
+				'Name': isVisitor ? data.Name: user.Name,
+				'Email': isVisitor ? data.Email: user.Email,
+				'UpdateTime': date.getTime(),
+				'CreateTime': date.getTime(),
+				"IsDelete": false
+			}, {w: 1}, function(err, records){
+				console.log("Record added as "+records);
 			});
 
-			request.on('end', function () {
-				var data = querystring.parse(body);
-
-				var user = Core.$user;
-				var isVisitor = user.Role== 'visitor';
-				
-				var date = new Date();
-				cm.insert({
-					'Id': Core.$counter.comment,				
-					'PostId': +data.PostId,
-					'UserId': +data.UserId,
-					'Content': data.Content || '',
-					'Name': isVisitor ? data.Name: user.Name,
-					'Email': isVisitor ? data.Email: user.Email,
-					'UpdateTime': date.getTime(),
-					'CreateTime': date.getTime()
-				}, {w: 1}, function(err, records){
-					console.log("Record added as "+records);
-				});
-
-				// 假设都是成功的
-				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-				response.write(JSON.stringify({"Id": Core.$counter.comment}));
-				response.end();
-			});
-		}
-	}
-	// 删除评论
-	// @todo 仅发布者或者管理员或者留言者本人可修改
-	// 修改评论
+			// 假设都是成功的
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(JSON.stringify({"Id": Core.$counter.comment}));
+			response.end();
+		});
+		
+	},
+	// 修改评论 －暂未实现
 	// @todo 仅留言者本人或者管理员可修改
+	update: function(response, request){
+
+		// 自增
+		Core.updateCounter('comment');
+
+		// POST
+		var body = '';
+
+		request.on('data', function (data) {
+			body += data;
+		});
+
+		request.on('end', function () {
+			var data = querystring.parse(body);
+
+			// 当前登陆用户信息
+			var user = Core.$user;
+			var isVisitor = user.Role== 'visitor';
+			
+			// 当前时间
+			var date = new Date();
+			
+			var cm = db.collection('comment');
+			cm.update({
+				'Id': +data.Id
+			},{$set: {				
+				'PostId': +data.PostId,
+				'UserId': +data.UserId,
+				'Content': data.Content || '',
+				'UpdateTime': date.getTime(),
+				"IsDelete": false
+			}}, function(err, records){
+				console.log(err);
+				console.log(records);
+			});
+
+			// 假设都是成功的
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(JSON.stringify(data));
+			response.end();
+		});
+	},
+
+	// 删除评论 -软删 @暂未实现
+	// @todo 仅发布者或者管理员或者留言者本人可修改
+	remove: function(response, request){
+		// GET
+		var arg = url.parse(request.url).query;
+		var param = querystring.parse(arg);
+
+		var collection = db.collection('comment');
+		collection.update(
+			{
+				'Id': +param.Id
+			},
+			{ 
+				$set: {
+					'IsDelete': true
+				}
+			}, function(err, records){
+				console.log(err);
+				console.log(records);
+			}
+		);
+
+		// 假设都是成功的
+		response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+		response.write(JSON.stringify('删除成功'));
+		response.end();
+	}
+
 };
 exports.comment = Comment;
 
@@ -326,46 +411,124 @@ exports.comment = Comment;
 var User = {
 	// 添加用户
 	create: function(response, request){
-		var self = this;
+		// POST
+		var body = '';
 
-		if (request.method == 'GET'){
-			var arg = url.parse(request.url).query;
-			var data = querystring.parse(arg);
-		}
-		if (request.method == 'POST'){
-			var body = '';
+		request.on('data', function (data) {
+			body += data;
+		});
 
-			request.on('data', function (data) {
-				body += data;
+		request.on('end', function () {
+			var data = querystring.parse(body);
+
+			Core.updateCounter('user');
+
+			var collection = db.collection('user');
+			collection.insert({
+				'Id': Core.$counter.user,				// 自增
+				'Name': data.Name || '',
+				'Email': data.Email || '',
+				'Password': data.Password || 0,	// @todo 加密
+				'Rights': data.Rights || [],
+				'Role': data.Role || 0,
+				'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
+				'LoginTime': data.LoginTime || '',
+				"IsDelete": false
+			}, {w: 1}, function(err, records){
+				console.log("Record added as "+records[0]);
 			});
 
-			request.on('end', function () {
-				var data = querystring.parse(body);
+			// 假设都是成功的
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write(JSON.stringify({"Id": Core.$counter.user}));
+			response.end();
+		});
+	},
+	// 登陆
+	login: function(response, request){
+		// POST
+		var body = '';
 
-				Core.updateCounter('user');
+		request.on('data', function (data) {
+			body += data;
+		});
 
-				var collection = db.collection('user');
-				collection.insert({
-					'Id': Core.$counter.user,				// 自增
-					'Name': data.Name || '',
-					'Email': data.Email || '',
-					'Password': data.Password || 0,	// @todo 加密
-					'Rights': data.Rights || [],
-					'Role': data.Role || 0,
-					'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
-					'LoginTime': data.LoginTime || ''
-				}, {w: 1}, function(err, records){
-					console.log("Record added as "+records[0]);
-				});
+		request.on('end', function () {
+			var data = querystring.parse(body);
 
-				// 假设都是成功的
+			var user = db.collection('user');
+			user.find({
+				"Email": data.Email,
+				"Password": data.Password,
+				"IsDelete": false
+			}).toArray(function(err, items){
+				var result = null;
+				if(err || !items.length){
+					result = JSON.stringify({
+						error: "用户名或密码不正确"
+					});
+				}else{
+					console.log(items)
+					Core.$user = items[0];
+					result = JSON.stringify(items);
+				}
+
 				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-				response.write(JSON.stringify({"Id": Core.$counter.user}));
+				response.write(result);
 				response.end();
 			});
-		}
-		
+
+		});
+	},
+	// 当前登陆状态
+	logininfo: function(response){
+		var user = Core.$user;
+		var result = user.Id ? user : null;
+
+		response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+		response.write(JSON.stringify(result));
+		response.end();
+	},
+	// 登出
+	logout: function(response){
+		Core.$user = {
+			Id: 0,
+			Name: '',
+			Email: '',
+			Role: 'visitor', // 游客，会员，管理员
+		};
+		var result = "已成功退出。"
+		response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+		response.write(JSON.stringify(result));
+		response.end();
+	},
+	// 删除用户 -软删
+	remove: function(response, request){
+		// GET
+		var arg = url.parse(request.url).query;
+		var param = querystring.parse(arg);
+
+		var collection = db.collection('user');
+		collection.update(
+			{
+				'Id': +param.Id
+			},
+			{ 
+				$set: {
+					'IsDelete': true
+				}
+			}, function(err, records){
+				console.log(err);
+				console.log(records);
+			}
+		);
+
+		// 假设都是成功的
+		response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+		response.write(JSON.stringify('删除成功'));
+		response.end();
 	}
+
 };
 exports.user = User;
 

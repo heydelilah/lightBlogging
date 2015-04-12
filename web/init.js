@@ -38,13 +38,22 @@
 	// 引入模块, 开始初始化
 	Sea.use(['core', 'jquery', 'router'], function(core, $, router){
 
-		// 创建全局底层框架
-		core.create('frame', 'web/public/framework.base', function(){
+		// 检查登陆状态
+		$.ajax({
+			url: "user/logininfo",
+			context: document.body
+		}).done(function(data){
 
-			// 启动路由
-			router.start();
-			
+			// 创建全局底层框架
+			core.create('frame', 'web/public/framework.base', {userInfo: data}, function(){
+
+				// 启动路由
+				router.start();
+				
+			});
 		});
+
+
 
 
 	});

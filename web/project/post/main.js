@@ -69,6 +69,7 @@ define(function(require, exports){
 
 				// 绑定事件
 				self.$el.find('.pencilEdit').click(self.eventGoEdit);
+				self.$el.find('.archive').click(self.eventArchive.bind(self));
 				self.$el.find('.showAll').click(self.eventShowAll);
 			});
 		},
@@ -81,11 +82,31 @@ define(function(require, exports){
 			var id = $(this).attr('data-id');
 			window.location.hash = '#post/edit/'+id;
 		},
+		// 归档
+		eventArchive: function(ev){
+			var id = $(ev.target).attr('data-id');
+			var result = confirm('确定要删除此文章吗？');
+			if(result){
+				this.archive(id);
+			}
+		},
 		eventAddPost: function(ev){
 			window.location.hash = "#post/edit";
 		},
 		getContainer: function(){
 			return this.$doms;
+		},
+		archive: function(id){
+			$.ajax({
+				url: "post/remove",
+				data: {'Id': id},
+				context: document.body
+			}).done(this.onArchive.bind(this)).fail(function() {
+				alert( "删除文章失败" );
+			});
+		},
+		onArchive: function(){
+			// @todo 更新页面
 		},
 		reload: function(){
 			this.$el.find('.P-postListContent').empty();
@@ -98,7 +119,7 @@ define(function(require, exports){
 					data[name] = config[ data[name] ];
 
 				}
-				if(name == 'createTime'){
+				if(name == 'CreateTime'){
 					data[name] = util.timeFormat(data[name], 'YYYY-MM-dd h:m:s');
 				}
 			}
