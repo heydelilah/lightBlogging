@@ -102,7 +102,7 @@ var Core = {
 		param[name] = now;
 
 		var collection = db.collection('counter');
-		collection.update({'_id': 0}, {$set: param});			
+		collection.update({'_id': 0}, {$set: param});
 
 	},
 
@@ -116,7 +116,7 @@ var Core = {
 
 		response.writeHead(200, {'Content-Type': 'text/html'});
 		response.write(file);
-		response.end();	
+		response.end();
 	}
 };
 exports.core = Core;
@@ -128,7 +128,7 @@ var Post = {
 	// 获取post的全部数据
 	list: function(response){
 		// 无请求参数
-		
+
 		var collection = db.collection('post');
 		collection.find({'IsDelete': false}).toArray(function(err, items) {
 
@@ -139,14 +139,14 @@ var Post = {
 			response.end();
 
 		});
-		
+
 	},
 	// 获取单条post数据
 	info: function(response, request){
 		// GET
 		var arg = url.parse(request.url).query;
 		var param = querystring.parse(arg);
-		
+
 		var collection = db.collection('post');
 
 		collection.find({'Id': +param.Id}).toArray(function(err, items) {
@@ -159,6 +159,15 @@ var Post = {
 	},
 	// 新建文章
 	create: function(response, request){
+		// 检查权限 -游客无发布文章权限
+		if(!Core.$user.Id){
+			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+			response.write("游客无权限");
+			response.end();
+			return;
+		}
+
+
 		// POST
 		var body = '';
 		request.on('data', function (data) {
@@ -169,15 +178,15 @@ var Post = {
 			var data = querystring.parse(body);
 
 			var collection = db.collection('post');
-			
+
 			// 自增
 			Core.updateCounter('post');
 
 			console.log(Core.$user)
-			
+
 			var date = new Date();
 			collection.insert({
-				'Id': Core.$counter.post,				
+				'Id': Core.$counter.post,
 				'Title': data.Title || '',
 				'Content': data.Content || '',
 				'Channel': data.Channel || 1,
@@ -211,10 +220,27 @@ var Post = {
 		request.on('end', function () {
 			var data = querystring.parse(body);
 
-			var collection = db.collection('post');
-			
+			var post = db.collection('post');
+
+			// 无数据
+			var result = post.find({'Id': +data.Id});
+			if(!result){
+				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+				response.write(null);
+				response.end();
+				return;
+			}
+			// 无权限
+			var hasRight = result.UserId == Core.$user.Id;
+			if(!hasRight){
+				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+				response.write("当前用户无权限");
+				response.end();
+				return;
+			}
+
 			var date = new Date();
-			collection.update({
+			post.update({
 				'Id': +data.Id
 			},{ $set: {
 				'Title': data.Title || '',
@@ -245,7 +271,7 @@ var Post = {
 			{
 				'Id': +param.Id
 			},
-			{ 
+			{
 				$set: {
 					'IsDelete': true
 				}
@@ -305,13 +331,13 @@ var Comment = {
 			// 当前登陆用户信息
 			var user = Core.$user;
 			var isVisitor = user.Role== 'visitor';
-			
+
 			// 当前时间
 			var date = new Date();
-			
+
 			var cm = db.collection('comment');
 			cm.insert({
-				'Id': Core.$counter.comment,				
+				'Id': Core.$counter.comment,
 				'PostId': +data.PostId,
 				'UserId': +data.UserId,
 				'Content': data.Content || '',
@@ -329,7 +355,7 @@ var Comment = {
 			response.write(JSON.stringify({"Id": Core.$counter.comment}));
 			response.end();
 		});
-		
+
 	},
 	// 修改评论 －暂未实现
 	// @todo 仅留言者本人或者管理员可修改
@@ -351,14 +377,14 @@ var Comment = {
 			// 当前登陆用户信息
 			var user = Core.$user;
 			var isVisitor = user.Role== 'visitor';
-			
+
 			// 当前时间
 			var date = new Date();
-			
+
 			var cm = db.collection('comment');
 			cm.update({
 				'Id': +data.Id
-			},{$set: {				
+			},{$set: {
 				'PostId': +data.PostId,
 				'UserId': +data.UserId,
 				'Content': data.Content || '',
@@ -388,7 +414,7 @@ var Comment = {
 			{
 				'Id': +param.Id
 			},
-			{ 
+			{
 				$set: {
 					'IsDelete': true
 				}
@@ -513,7 +539,7 @@ var User = {
 			{
 				'Id': +param.Id
 			},
-			{ 
+			{
 				$set: {
 					'IsDelete': true
 				}

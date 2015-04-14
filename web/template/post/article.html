@@ -1,11 +1,11 @@
 <article class="M-article uk-article mb2">
 
 	<div class="M-articleTitle">
-		
+
 		<!-- 标题 -->
 		<a href="#post/detail/{{Id}}" class="uk-article-title uk-h2">{{Title}} </a>
 
-		<span class="op">
+		<span class="op {{Right}}">
 			<!-- 铅笔－可编辑 -->
 			<i data-id="{{Id}}" title="编辑" class="uk-icon-pencil opItem pencilEdit"></i>
 			<i data-id="{{Id}}" title="删除" class="uk-icon-close opItem archive"></i>
@@ -14,24 +14,24 @@
 	</div>
 
 
-	
+
 	<div class="uk-article-meta mt1">
-		
+
 		<div class="metaItem">
 			<label>作者：</label>
 			<span> {{UserName}} </span>
 		</div>
-		
+
 		<div class="metaItem">
 			<label>发布日期：</label>
 			<span> {{CreateTime}} </span>
 		</div>
-		
+
 		<div class="metaItem">
 			<label>所属频道：</label>
 			<span> {{Channel}} </span>
 		</div>
-		
+
 		<div class="metaItem">
 			<label>标签：</label>
 			<span> {{Tag}} </span>

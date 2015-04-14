@@ -3,12 +3,12 @@ define(function(require, exports){
 	var $ = require('jquery');
 	var editor = require('kindeditor');
 	var handlebars = require('handlebars');
+	var core = require('core');
 
 
 	// 详情页
 	var Edit = {
 		init: function(config){
-			var self = this;
 
 			// 创建底层容器
 			var el = this.$el = $('<div class="P-postEdit"/>').appendTo(config.target);
@@ -26,8 +26,8 @@ define(function(require, exports){
 
 				// 编辑器
 				var option = {
-					basePath: 'web/libs/kindeditor/',
-				}
+					basePath: 'web/libs/kindeditor/'
+				};
 
 				self.$editor = KindEditor.create('#editorPost', option);
 
@@ -42,6 +42,13 @@ define(function(require, exports){
 			});
 		},
 		load: function(id){
+			// 权限检查
+			var user = core.getUser();
+			if(!user.Id){
+				console.log('无此权限');
+				window.location.hash = "#post";
+			}
+
 			var self = this;
 
 			// 加载文章数据
@@ -138,5 +145,5 @@ define(function(require, exports){
 		}
 	}
 	exports.base = Edit;
-	
+
 });

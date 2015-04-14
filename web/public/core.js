@@ -19,8 +19,8 @@ define(function(require, exports){
 	/**
 	 * 创建模块
 	 * 1切容器； 2 引入模块，并执行
-	 * @param  {String}	标识名字	
-	 * @param  {String}	模块的文件地址	
+	 * @param  {String}	标识名字
+	 * @param  {String}	模块的文件地址
 	 * @param  {Object}	参数，可选
 	 * @param  {Function}	回调函数，可选
 	 * @return {null}
@@ -93,7 +93,7 @@ define(function(require, exports){
 			Id: 0,
 			Name: '',
 			Email: '',
-			Role: 'visitor', // 游客，会员，管理员
+			Role: 'visitor'	// 游客，会员，管理员
 		}
 	};
 
@@ -104,6 +104,15 @@ define(function(require, exports){
 
 	exports.setUser = function(data){
 		global.user = data;
+	};
+
+	exports.resetUser = function(){
+		global.user = {
+			Id: 0,
+			Name: '',
+			Email: '',
+			Role: 'visitor'	// 游客，会员，管理员
+		};
 	};
 
 	exports.getUser = function(name){

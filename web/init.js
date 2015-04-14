@@ -43,13 +43,16 @@
 			url: "user/logininfo",
 			context: document.body
 		}).done(function(data){
+			if(data){
+				core.setUser(data);
+			}
 
 			// 创建全局底层框架
 			core.create('frame', 'web/public/framework.base', {userInfo: data}, function(){
 
 				// 启动路由
 				router.start();
-				
+
 			});
 		});
 

@@ -26,7 +26,7 @@ db.user.insert({
 	"IsDelete": false
 });
 db.user.insert({
-	"Id": 1,
+	"Id": 2,
 	"Name": "Jing",
 	"Email": "jing@mail.com",
 	"Password": "123",
@@ -103,7 +103,7 @@ id, name, desc, creator, createTime, updateTime
 role
 =========
 id name, rights
-1, admin, 
+1, admin,
 2, user,
 
 

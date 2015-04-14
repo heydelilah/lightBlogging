@@ -24,7 +24,7 @@ define(function(require, exports){
 
 				// 绑定点击事件
 				el.find('.G-frameHeaderLogo').on('click', self.eventBackHome);
-				el.find('.logout').on('click', self.eventLogout);
+				el.find('.logout').on('click', self.eventLogout.bind(self));
 
 
 				// 加载完成，执行回调，返回上一级
@@ -32,7 +32,7 @@ define(function(require, exports){
 
 				// 更新用户信息
 				if(config.userInfo){
-					self.updateHeader(config.userInfo);	
+					self.updateHeader(config.userInfo);
 				}
 			});
 		},
@@ -45,13 +45,17 @@ define(function(require, exports){
 		},
 		// 退出登录
 		eventLogout: function(ev){
+			var self = this;
 			var result = confirm('确认退出登录吗？');
 			if(result){
 				$.ajax({
 					url: "user/logout",
 					context: document.body
 				}).done(function(){
-					alert('已成功退出。')
+					core.resetUser();
+					alert('已成功退出。');
+
+					self.updateHeader();
 					window.location.hash = "#post";
 				});
 			}
@@ -74,6 +78,6 @@ define(function(require, exports){
 		}
 	}
 	exports.base = Frame;
-	
+
 
 });

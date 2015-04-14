@@ -2,6 +2,7 @@ define(function(require, exports){
 	var util = require('util');
 	var $ = require('jquery');
 	var handlebars = require('handlebars');
+	var core = require('core');
 
 	// 数据映射表
 	var MAPPING = {
@@ -18,7 +19,7 @@ define(function(require, exports){
 
 	var Home = {
 		init: function(config){
-			
+
 			var self = this;
 
 			this.$config = config;
@@ -53,19 +54,31 @@ define(function(require, exports){
 		},
 		onData: function(data){
 			var self = this;
-			
+
 			util.loadTpl('post/article.html', function(file){
 				var template = Handlebars.compile(file);
-				
+
+				var user = core.getUser();
+
 				// 创建文章
 				for (var i = 0; i < data.length; i++) {
 
 					var value = self.tranData(data[i]);
 
+					// 是否是发布者本人
+					var isAuthor = (value.UserId == user.Id) ? '':'is-hidden';
+					// 是否是管理员 -管理员永远有权限查看
+					var isAdmin = (value.Role == 'admin') ? '':isAuthor;
+
+					value["Right"] = isAdmin;
+
+
 					article = template(value);
 
 					self.$el.find('.P-postListContent').append(article);
 				};
+
+
 
 				// 绑定事件
 				self.$el.find('.pencilEdit').click(self.eventGoEdit);
@@ -127,5 +140,5 @@ define(function(require, exports){
 		}
 	}
 	exports.base = Home;
-	
+
 });
