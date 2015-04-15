@@ -76,7 +76,7 @@ define(function(require, exports){
 	// 定义无需登录检查的模块
 	function run(module, action, param, search){
 		var router = {
-			default_module: 'home',
+			default_module: 'post',
 			default_action: 'main',
 			login_module: 'login',
 			login_action: 'main',

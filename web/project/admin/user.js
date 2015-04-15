@@ -29,11 +29,15 @@ define(function(require, exports){
 				el.find('.back').on('click', self.eventBack);
 
 			});
-			
+
 		},
 		eventSave: function(ev){
-
 			var data = this.getData();
+
+			// 表单验证
+			if(!this.validate(data)){
+				return;
+			}
 
 			// 请求数据
 			$.ajax({
@@ -42,22 +46,39 @@ define(function(require, exports){
 				type: "POST",
 				context: document.body
 			}).done(this.onSave.bind(this)).fail(function() {
+				console.log(arguments)
 				alert( "add user failed" );
 			});
 
 		},
+		validate: function(data){
+			// 两次密码应相等
+			if(data.Password !== data.PasswordVerify){
+				alert("两次输入的密码不相等");
+				return false;
+			}
+			return true;
+		},
 		eventBack: function(ev){
 			window.location.hash = "#post"
 		},
-		onSave: function(){
+		onSave: function(result){
+			if(result.err){
+				alert(result.err);
+				return false;
+			}
+
+			// @todo 以当前用户登录
+
 			window.location.hash = "#post";
 		},
 		getData: function(){
 			var el = this.$el;
 			return {
-				'Name': el.find('.Name').val(),
+				'Name': el.find('.name').val(),
 				'Email': el.find('.email').val(),
 				'Password': el.find('.password').val(),
+				'PasswordVerify': el.find('.verify').val()
 			}
 		},
 		reset: function(){
@@ -65,8 +86,8 @@ define(function(require, exports){
 			el.find('.name').val('');
 			el.find('.email').val('');
 			el.find('.password').val('');
+			el.find('.verify').val('');
 		}
-
 	};
 	exports.signup = Signup;
 
@@ -99,7 +120,7 @@ define(function(require, exports){
 				el.find('.admin').click(self.eventTest.bind(self, 'admin'));
 
 			});
-			
+
 		},
 		// 仅为了方便测试
 		eventTest: function(type, ev){

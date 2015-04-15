@@ -447,27 +447,38 @@ var User = {
 		request.on('end', function () {
 			var data = querystring.parse(body);
 
-			Core.updateCounter('user');
+			var userDb = db.collection('user');
+			// 验证邮箱是否已注册过
+			userDb.find({"Email": data.Email}).toArray(function(err, userData) {
 
-			var collection = db.collection('user');
-			collection.insert({
-				'Id': Core.$counter.user,				// 自增
-				'Name': data.Name || '',
-				'Email': data.Email || '',
-				'Password': data.Password || 0,	// @todo 加密
-				'Rights': data.Rights || [],
-				'Role': data.Role || 0,
-				'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
-				'LoginTime': data.LoginTime || '',
-				"IsDelete": false
-			}, {w: 1}, function(err, records){
-				console.log("Record added as "+records[0]);
+				var isExist = userData.length;
+				if(isExist){
+					response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+					response.write(JSON.stringify({err: "此邮箱已被注册"}));
+					response.end();
+					return;
+				}
+
+				// 新增用户
+				Core.updateCounter('user');
+				userDb.insert({
+					'Id': Core.$counter.user,				// 自增
+					'Name': data.Name || '',
+					'Email': data.Email || '',
+					'Password': data.Password || 0,			// @todo 加密
+					'Rights': data.Rights || [],
+					'Role': data.Role || 0,
+					'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
+					'LoginTime': data.LoginTime || '',
+					"IsDelete": false
+				}, {w: 1}, function(err, records){
+					console.log(records);
+				});
+
+				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
+				response.write(JSON.stringify({"Id": Core.$counter.user}));
+				response.end();
 			});
-
-			// 假设都是成功的
-			response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
-			response.write(JSON.stringify({"Id": Core.$counter.user}));
-			response.end();
 		});
 	},
 	// 登陆
