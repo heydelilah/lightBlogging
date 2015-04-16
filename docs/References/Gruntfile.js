@@ -16,53 +16,60 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
-		// JS语法检测
-		jshint: {
-			config: {
-				files: {
-					src: CONFIG_FILES
+			jshint: {
+				config: {
+					files: {
+						src: CONFIG_FILES
+					},
+					options: {
+						node: true
+					}
 				},
+				client: CLIENT_FILES,
 				options: {
-					node: true
+					asi:true,
+					curly:true,
+					latedef:true,
+					forin:false,
+					noarg:false,
+					sub:true,
+					undef:true,
+					unused:'vars',
+					boss:true,
+					eqnull:true,
+					browser:true,
+					laxcomma:true,
+					devel:true,
+					smarttabs:true,
+					predef:[
+						"require"
+						,"define"
+						,"console"
+						,"extend"
+						,"LANG"
+						,"ROOT"
+						,"PUBJS"
+						,"_T"
+						,"seajs"
+						,"BASE"
+						,"Handlebars"
+					],
+					globals: {
+						jQuery: true
+						,browser:true
+					}
 				}
-			},
-			client: CLIENT_FILES,
-			options: {
-				asi:true,
-				curly:true,
-				latedef:true,
-				forin:false,
-				noarg:false,
-				sub:true,
-				undef:true,
-				unused:'vars',
-				boss:true,
-				eqnull:true,
-				browser:true,
-				laxcomma:true,
-				devel:true,
-				smarttabs:true,
-				predef:[
-					"require"
-					,"define"
-					,"console"
-					,"extend"
-					,"ROOT"
-					,"seajs"
-					,"BASE"
-				],
-				globals: {
-					jQuery: true
-					,browser:true
-				}
-			}
 		},
 
-		// less编译
 		less: {
 			dev: {
 				files:{
 					'web/resources/main.css': 'web/less/main.less'
+				}
+			},
+			old: {
+				files:{
+					'resources/main.css': 'less/main.less'
 				}
 			},
 			product:{
@@ -77,8 +84,6 @@ module.exports = function(grunt) {
 				paths: ['.', 'web/less']
 			}
 		},
-
-		// 文件变动监测
 		watch: {
 			config: {
 				files: CONFIG_FILES,
@@ -101,17 +106,32 @@ module.exports = function(grunt) {
 				],
 				tasks:['shell:icon']
 			}
+		},
+
+		uglify: {
+		  options: {
+		    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+		  },
+		  build: {
+		    src: 'src/<%= pkg.name %>.js',
+		    dest: 'build/<%= pkg.name %>.min.js'
+		  }
 		}
 	});
 
-	/* ---- 加载插件 ---- */
+	/* ---- Load the plugin ---- */
 
+
+	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	// grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	// grunt.loadNpmTasks('grunt-contrib-copy');
+	// grunt.loadNpmTasks('grunt-shell');
 
 
-	/* ---- 注册任务 ---- */
+	/* ---- tasks ---- */
 
 	// "npm test" runs these tasks
 	grunt.registerTask('test', ['jshint']);
@@ -126,6 +146,8 @@ module.exports = function(grunt) {
 
 	// Build task
 	grunt.registerTask('build', ['less-product']);
+	// grunt.registerTask('build-icon', ['shell:icon']);
+	grunt.registerTask('build-release', ['build-icon', 'less:product', 'copy:release', 'gcc:release']);
 
 	// Default task.
 	grunt.registerTask('default', ['watch-all']);

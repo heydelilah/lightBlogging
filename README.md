@@ -15,27 +15,30 @@
 
 #### 涉及的技术：
 
-- Javascript（Jquery)
+- Javascript
 - HTML, CSS
-- Nodejs
-- Seajs -前端模块化
-- Mongodb －数据库
+- [Nodejs](https://nodejs.org/api/crypto.html)
+- [Seajs](http://seajs.org/docs/) -前端模块化
+- [Mongodb](http://docs.mongodb.org/manual/) －数据库
 - [LESS](http://lesscss.org) -CSS预处理语言
 
-#### 引用的插件：
+#### 引用的资源：
 
+- [jQuery](https://jquery.com/)
 - [Handlebars.js](http://handlebarsjs.com/) -Javascript 模板引擎
 - [UIkit](https://github.com/uikit/uikit) －轻量级前端 UI 框架
 - [KindEditor](http://kindeditor.org/) －轻量开源 HTML 编辑器
-
-#### 引用的资源
 - [CryptoJS](http://code.google.com/p/crypto-js/) -JavaScript加密库 32-bit/UTF-8
 
 
 #### 使用的工具：
 
-- Balsamiq Mockups 3 -原型设计
-- Koala －LESS编译工具
+- [Balsamiq Mockups](https://balsamiq.com/) -原型设计
+- [Grunt](http://gruntjs.com/) -基于JavaScript的任务运行工具
+	1. watch 监测文件变动
+	2. jshint 拼写检查
+	3. LESS 编译
+	4. @Todo: 压缩、单元测试
 
 #### 运行：
 
