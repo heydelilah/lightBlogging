@@ -64,24 +64,24 @@ module.exports = function(grunt) {
 		less: {
 			dev: {
 				files:{
-					'resources/css/app.css': 'resources/less/app.less'
+					'web/resources/main.css': 'web/less/main.less'
 				}
 			},
 			old: {
 				files:{
-					'resources/css/app.css': 'resources/css/app.less'
+					'resources/main.css': 'less/main.less'
 				}
 			},
 			product:{
 				files:{
-					'release/resources/css/app.css': 'resources/less/app.less'
+					'web/resources/main.css': 'web/less/main.less'
 				},
 				options:{
 					yuicompress: true
 				}
 			},
 			options: {
-				paths: ['.', 'resources/less']
+				paths: ['.', 'web/less']
 			}
 		},
 		watch: {
@@ -95,8 +95,8 @@ module.exports = function(grunt) {
 			},
 			less: {
 				files: [
-					'resources/less/**/*.less',
-					'resources/less/*/*.less'
+					'web/less/*.less',
+					'web/less/*/*.less'
 				],
 				tasks: ['less:dev']
 			},
