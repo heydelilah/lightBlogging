@@ -2,6 +2,7 @@ define(function(require, exports){
 	var util = require('util');
 	var $ = require('jquery');
 	var core = require('core');
+	var CryptoJS = require('md5');
 
 	// 注册
 	var Signup = {
@@ -38,6 +39,10 @@ define(function(require, exports){
 			if(!this.validate(data)){
 				return;
 			}
+
+			// 密码加密
+			var code = CryptoJS.MD5(data.Password).toString();
+			data.Password = code;
 
 			// 请求数据
 			$.ajax({
@@ -147,6 +152,13 @@ define(function(require, exports){
 			this.save(data);
 		},
 		save: function(data){
+			// 密码加密
+			var salt = Math.random().toString();
+			var codem5 = CryptoJS.MD5(data.Password).toString();
+			var code = CryptoJS.MD5(codem5+salt).toString();
+			data.Password = code;
+			data.Salt = salt;
+
 			// 请求数据
 			$.ajax({
 				url: "user/login",

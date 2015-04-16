@@ -20,7 +20,7 @@ db.user.insert({
 	"Id": 1,
 	"Name": "Delilah",
 	"Email": "delilah@mail.com",
-	"Password": "123",
+	"Password": "202cb962ac59075b964b07152d234b70",
 	"Role": "member",
 	"CreateTime": "1428117088028",
 	"IsDelete": false
@@ -29,7 +29,7 @@ db.user.insert({
 	"Id": 2,
 	"Name": "Jing",
 	"Email": "jing@mail.com",
-	"Password": "123",
+	"Password": "202cb962ac59075b964b07152d234b70",
 	"Role": "admin",
 	"CreateTime": "1428117088028",
 	"IsDelete": false

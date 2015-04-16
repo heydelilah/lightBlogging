@@ -130,6 +130,9 @@
 .P-postList .M-article .showAll.act .fold {
   display: inline;
 }
+.P-postListVisitor .add {
+  display: none;
+}
 .P-postDetail .M-article a:hover {
   text-decoration: none;
 }

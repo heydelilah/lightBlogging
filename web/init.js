@@ -23,7 +23,8 @@
 				"util":			ROOT("web/public/util"),
 				"core":			ROOT("web/public/core"),
 				"handlebars": 	"@libs/handlebars-v3.0.0.js",
-				"kindeditor":	"@libs/kindeditor/kindeditor-min.js"
+				"kindeditor":	"@libs/kindeditor/kindeditor-min.js",
+				"md5":			"@libs/hmac-md5.js",
 			},
 			paths: {
 				"@libs":		ROOT("web/libs")

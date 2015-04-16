@@ -24,13 +24,16 @@ define(function(require, exports){
 
 			this.$config = config;
 
+			// 如果非游客，要显示添加文章按钮
+			var user = core.getUser();
+			var className = user.Id ? '': 'P-postListVisitor';
+
 			// 创建底层容器
-			var el = this.$el = $('<div class="P-postList"/>').appendTo(config.target);
+			var el = this.$el = $('<div class="P-postList '+className+'"/>').appendTo(config.target);
 
 			// 从服务器加载模版html文件
 			util.loadTpl('post/main.html', function(file){
 
-				// 使用 handlebars 解析
 				var template = Handlebars.compile(file);
 				var dom = template();
 

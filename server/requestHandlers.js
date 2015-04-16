@@ -3,6 +3,7 @@ var url = require('url');
 var querystring = require("querystring");
 var mongodb = require('mongodb');
 var util = require('util');
+var crypto = require('crypto')
 
 // 数据库
 var db = null;
@@ -312,6 +313,7 @@ var Comment = {
 
 		});
 	},
+
 	// 新增评论
 	create: function(response, request){
 
@@ -355,8 +357,8 @@ var Comment = {
 			response.write(JSON.stringify({"Id": Core.$counter.comment}));
 			response.end();
 		});
-
 	},
+
 	// 修改评论 －暂未实现
 	// @todo 仅留言者本人或者管理员可修改
 	update: function(response, request){
@@ -459,17 +461,18 @@ var User = {
 					return;
 				}
 
+				var date = new Date();
+
 				// 新增用户
 				Core.updateCounter('user');
 				userDb.insert({
 					'Id': Core.$counter.user,				// 自增
 					'Name': data.Name || '',
 					'Email': data.Email || '',
-					'Password': data.Password || 0,			// @todo 加密
+					'Password': data.Password || 0,
 					'Rights': data.Rights || [],
 					'Role': data.Role || 0,
-					'RegisterTime': data.RegisterTime || '',	// @todo 当前时间
-					'LoginTime': data.LoginTime || '',
+					'RegisterTime': date.getTime(),
 					"IsDelete": false
 				}, {w: 1}, function(err, records){
 					console.log(records);
@@ -496,18 +499,31 @@ var User = {
 			var user = db.collection('user');
 			user.find({
 				"Email": data.Email,
-				"Password": data.Password,
 				"IsDelete": false
 			}).toArray(function(err, items){
 				var result = null;
+
+				// 用户不存在
 				if(err || !items.length){
 					result = JSON.stringify({
-						error: "用户名或密码不正确"
+						error: "邮箱或密码不正确"
 					});
-				}else{
-					console.log(items)
-					Core.$user = items[0];
-					result = JSON.stringify(items);
+				}
+
+				else{
+					// 判断密码是否正确
+					var md5 = crypto.createHash('md5');
+					var psd = md5.update(items[0].Password+data.Salt).digest('hex');
+
+					if(psd != data.Password){
+						result = JSON.stringify({
+							error: "邮箱或密码不正确"
+						});
+					}else{
+						// 验证成功
+						Core.$user = items[0];
+						result = JSON.stringify(items);
+					}
 				}
 
 				response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'});
