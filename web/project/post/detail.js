@@ -1,11 +1,10 @@
 define(function(require, exports){
 	var util = require('util');
 	var $ = require('jquery');
-	var handlebars = require('handlebars');
-	var editor = require('kindeditor');
 
 	var comment = require('../comment');
-	var core = require('core');
+	// var core = require('core');
+	var handlebars = require('handlebars');
 
 	// 数据映射表
 	var MAPPING = {
@@ -26,8 +25,6 @@ define(function(require, exports){
 		init: function(config){
 			this.$config = config;
 
-			var self = this;
-
 			// 创建底层容器
 			var el = this.$el = $('<div class="P-postDetail"/>').appendTo(config.target);
 
@@ -36,7 +33,7 @@ define(function(require, exports){
 			util.loadTpl('post/detail.html', function(file){
 
 				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template()
 
 				// 插入到浏览器页面
@@ -89,7 +86,7 @@ define(function(require, exports){
 				util.loadTpl('post/article.html', function(file){
 
 					// 使用 handlebars 解析
-					var template = c['tplPost'] = Handlebars.compile(file);
+					var template = c['tplPost'] = handlebars.compile(file);
 					var dom = template(data)
 
 					// 插入到浏览器页面
@@ -160,5 +157,5 @@ define(function(require, exports){
 		}
 	}
 	exports.base = Detail;
-	
+
 });

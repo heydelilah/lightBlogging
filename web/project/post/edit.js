@@ -1,10 +1,10 @@
 define(function(require, exports){
 	var util = require('util');
 	var $ = require('jquery');
-	var editor = require('kindeditor');
-	var handlebars = require('handlebars');
 	var core = require('core');
 
+	var kindeditor = require('kindeditor');
+	var handlebars = require('handlebars');
 
 	// 详情页
 	var Edit = {
@@ -18,7 +18,7 @@ define(function(require, exports){
 			util.loadTpl('post/edit.html', function(file){
 
 				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template()
 
 				// 插入到浏览器页面
@@ -29,7 +29,7 @@ define(function(require, exports){
 					basePath: 'web/libs/kindeditor/'
 				};
 
-				self.$editor = KindEditor.create('#editorPost', option);
+				self.$editor = kindeditor.create('#editorPost', option);
 
 				// 绑定按钮点击事件
 				el.find('.save').on('click', self, self.eventSave);

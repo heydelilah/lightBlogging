@@ -134,13 +134,13 @@ define(function(require, exports){
 				case 'member':
 					data = {
 						'Email': 'delilah@mail.com',
-						'Password': 123
+						'Password': '123'
 					};
 				break;
 				case 'admin':
 					data = {
 						'Email': 'jing@mail.com',
-						'Password': 123
+						'Password': '123'
 					};
 				break;
 			}
@@ -192,7 +192,7 @@ define(function(require, exports){
 	};
 	exports.login = Login;
 
-	var Loginout = {};
+	// var Loginout = {};
 
 	// 忘记密码 －@todo
 

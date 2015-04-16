@@ -16,7 +16,7 @@ define(function(require, exports){
 			util.loadTpl('framework.html', function(file){
 
 				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template();
 
 				// 插入到浏览器页面

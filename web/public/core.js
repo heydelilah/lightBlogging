@@ -25,7 +25,7 @@ define(function(require, exports){
 	 * @param  {Function}	回调函数，可选
 	 * @return {null}
 	 */
-	function create(name, uri, param, callback){
+	function create(name, url, param, callback){
 
 		// 处理非必填参数
 		if(!callback && typeof param == 'function'){
@@ -38,7 +38,7 @@ define(function(require, exports){
 		}
 
 
-		var url = window.ROOT(uri);
+		url = window.ROOT(url);
 		var type = url;
 		var pos = type.lastIndexOf('.');
 		var uri;

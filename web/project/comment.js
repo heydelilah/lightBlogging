@@ -2,7 +2,7 @@ define(function(require, exports){
 	var util = require('util');
 	var $ = require('jquery');
 	var handlebars = require('handlebars');
-	var editor = require('kindeditor');
+	var kindeditor = require('kindeditor');
 	var core = require('core');
 
 
@@ -18,13 +18,13 @@ define(function(require, exports){
 		},
 		build: function(){
 			var el = this.$el;
-			
+
 			// 从服务器加载模版html文件
 			var self = this;
 			util.loadTpl('comment/form.html', function(file){
 
 				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template();
 
 				// 插入到浏览器页面
@@ -43,7 +43,7 @@ define(function(require, exports){
 					resizeType: 0
 				};
 
-				self.$editor = KindEditor.create('#editorComment', option);
+				self.$editor = kindeditor.create('#editorComment', option);
 
 				el.find('.send').click(self.eventSend.bind(self));
 			});
@@ -65,7 +65,7 @@ define(function(require, exports){
 		},
 		onSave: function(data, result, status){
 			this.reset();
-			
+
 			// 界面上新增一条评论 @todo 优化
 			core._.postDetail.addComment(data);
 		},
@@ -91,7 +91,7 @@ define(function(require, exports){
 				el.find('.name').val('');
 				el.find('.email').val('');
 			}
-			
+
 			this.$editor.html('');
 		}
 	}
@@ -109,23 +109,19 @@ define(function(require, exports){
 
 		},
 		build: function(data){
-			var c = this.$config;
-
-			var target = this.$el;
-
 			var self = this;
 
 			util.loadTpl('comment/list.html', function(file){
 
-				self.$template  = Handlebars.compile(file);
+				self.$template  = handlebars.compile(file);
 
 				for (var i = 0; i < data.length; i++) {
 
 					self.buildItem(data[i]);
 
-				};
+				}
 			});
-		
+
 		},
 		buildItem: function(data){
 
@@ -154,5 +150,5 @@ define(function(require, exports){
 		}
 	};
 	exports.list = CommentList;
-	
+
 });

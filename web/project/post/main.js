@@ -34,7 +34,7 @@ define(function(require, exports){
 			// 从服务器加载模版html文件
 			util.loadTpl('post/main.html', function(file){
 
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template();
 
 				// 插入到浏览器页面
@@ -59,7 +59,7 @@ define(function(require, exports){
 			var self = this;
 
 			util.loadTpl('post/article.html', function(file){
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 
 				var user = core.getUser();
 
@@ -76,12 +76,10 @@ define(function(require, exports){
 					value["Right"] = isAdmin;
 
 
-					article = template(value);
+					var article = template(value);
 
 					self.$el.find('.P-postListContent').append(article);
-				};
-
-
+				}
 
 				// 绑定事件
 				self.$el.find('.pencilEdit').click(self.eventGoEdit);

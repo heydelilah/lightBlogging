@@ -5,11 +5,10 @@ define(function(require, exports){
 		Doc = Win.document,
 		URL = Loc.href,
 		app = null,
-		tpl = null,
+		// tpl = null,
 		routers = [
 			/^[^#]+#([^\/?]+)?(?:\/([^\/?]+))?(?:\/([^?]+))?(?:\?(.+))?$/
-		],
-		ready = 0;
+		];
 
 	var util = require('util');
 

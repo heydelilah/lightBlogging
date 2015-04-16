@@ -47,7 +47,7 @@ define(function(require, exports){
 	}
 	exports.loadTpl = loadTpl;
 
- 
+
 	function timeFormat (millisec, format) {
 		var self = new Date();
 		self.setTime(millisec);
@@ -66,8 +66,7 @@ define(function(require, exports){
 		}
 		for (var k in date) {
 			if (new RegExp("(" + k + ")").test(format)) {
-				format = format.replace(RegExp.$1, RegExp.$1.length == 1
-				? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+				format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
 			}
 		}
 		return format;
