@@ -3,6 +3,7 @@ define(function(require, exports){
 	var $ = require('jquery');
 	var core = require('core');
 	var CryptoJS = require('md5');
+	var handlebars = require('handlebars')
 
 	// 注册
 	var Signup = {
@@ -19,7 +20,7 @@ define(function(require, exports){
 			util.loadTpl('user/signup.html', function(file){
 
 				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template();
 
 				// 插入到浏览器页面
@@ -111,7 +112,7 @@ define(function(require, exports){
 			util.loadTpl('user/login.html', function(file){
 
 				// 使用 handlebars 解析
-				var template = Handlebars.compile(file);
+				var template = handlebars.compile(file);
 				var dom = template();
 
 				// 插入到浏览器页面

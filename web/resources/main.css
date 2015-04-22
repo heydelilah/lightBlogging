@@ -90,6 +90,449 @@
   width: 1000px;
   margin: 0 auto;
 }
+/***
+ * Background Image CSS auto generate by PHP Image Packager
+ * http://blog.win-ing.cn by Katana
+ ***/
+/* Image: ../images/icons.png?0422 */
+/* Image: ../images/icons_act.png?0422 */
+.M-HighGrid {
+  color: #444;
+  font-size: 13px;
+  overflow: hidden;
+  min-height: 600px;
+  position: relative;
+  background: #FFFFFF;
+  font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+}
+.M-HighGrid table {
+  border-collapse: separate;
+}
+.M-HighGrid td {
+  overflow: hidden;
+  padding: 10px 12px;
+  white-space: nowrap;
+  line-height: inherit;
+}
+.M-HighGrid td.center {
+  text-align: center;
+}
+.M-HighGrid td.left {
+  text-align: left;
+}
+.M-HighGrid td.right {
+  text-align: right;
+}
+.M-HighGridRefreshAuto {
+  color: #444;
+  padding: 0 5px;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 30px;
+  margin-right: 1px;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #eeeeee;
+}
+.M-HighGridRefreshAuto i {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -110px -122px;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  display: inline-block;
+}
+.M-HighGridRefreshAuto i.act {
+  background-image: url("../images/icons_act.png?0422");
+  background-repeat: no-repeat;
+}
+.M-HighGridRefreshAuto:hover {
+  background-color: #f5f5f5;
+}
+.M-HighGridRefresh button {
+  padding: 0 7px;
+  min-height: 25px;
+  line-height: 25px;
+}
+.M-HighGridRefresh button em {
+  display: block;
+}
+.M-HighGridRefresh .refNormal {
+  height: 30px;
+  padding: 0 9px;
+}
+.M-HighGridRefresh .refNormal em {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -122px -122px;
+  width: 12px;
+  height: 12px;
+}
+.M-HighGridRefresh .refing em {
+  background: url("../images/loading_small.gif") 0 0 no-repeat;
+}
+.M-HighGridHeader {
+  overflow: hidden;
+}
+.M-HighGridHeaderLeft {
+  padding: 2px 0;
+}
+.M-HighGridBatch {
+  height: 30px;
+  padding: 0 10px;
+  cursor: pointer;
+  line-height: 30px;
+  text-align: center;
+  background-color: #eee;
+}
+.M-HighGridBatch span {
+  margin-right: 5px;
+}
+.M-HighGridBatch:hover {
+  background-color: #f5f5f5;
+}
+.M-HighGridExport {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  line-height: 30px;
+  text-align: center;
+  background-color: #eee;
+}
+.M-HighGridExport em {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -134px -122px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+.M-HighGridExport:hover {
+  background-color: #f5f5f5;
+}
+.M-HighGridSwitch {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  line-height: 30px;
+  text-align: center;
+  background-color: #eee;
+}
+.M-HighGridSwitch em {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -146px -122px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+.M-HighGridSwitch:hover {
+  background-color: #f5f5f5;
+}
+.M-HighGridList {
+  text-align: right;
+  background: #F8F8F8;
+  border: 1px solid #eaeaea;
+  border-top: solid 2px #535B5E;
+}
+.M-HighGridListCorner {
+  background: #f8f8f8;
+}
+.M-HighGridListCornerTitle {
+  text-align: center;
+}
+.M-HighGridListCornerTitle td {
+  border-bottom: 1px solid #c8cdcc;
+  border-right: 1px solid transparent;
+}
+.M-HighGridListCornerAmount {
+  z-index: 1;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+.M-HighGridListCornerAmount td {
+  border-right: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+}
+.M-HighGridListHeader {
+  overflow: hidden;
+  background: #f8f8f8;
+}
+.M-HighGridListHeader table {
+  min-width: 100%;
+}
+.M-HighGridListHeaderTitle {
+  text-align: center;
+}
+.M-HighGridListHeaderTitle td {
+  border-bottom: 1px solid #c8cdcc;
+  border-right: 1px solid transparent;
+}
+.M-HighGridListHeaderAmount {
+  line-height: 40px;
+}
+.M-HighGridListHeaderAmount td {
+  border: solid #EAEAEA;
+  border-width: 0 1px 1px 0;
+}
+.M-HighGridListSidebar {
+  z-index: 1;
+  overflow: hidden;
+  position: relative;
+}
+.M-HighGridListSidebar tr.even {
+  background: #ffffff;
+}
+.M-HighGridListSidebar td {
+  border: solid #EAEAEA;
+  border-width: 0 1px 1px 0;
+}
+.M-HighGridListSidebar td .M-HighGrid-subgrid {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+}
+.M-HighGridListSidebarMenu {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -36px -122px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  display: inline-block;
+}
+.M-HighGridListContent {
+  position: relative;
+}
+.M-HighGridListContent table {
+  min-width: 100%;
+}
+.M-HighGridListContent tr.even {
+  background: #ffffff;
+}
+.M-HighGridListContent td {
+  border: solid #EAEAEA;
+  border-width: 0 1px 1px 0;
+}
+.M-HighGridListRowHover {
+  background: #EFFBFE !important;
+}
+.M-HighGridList .sortable:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.M-HighGridList .asc em {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -169px -66px;
+  width: 6px;
+  height: 8px;
+  margin-left: 5px;
+  display: inline-block;
+}
+.M-HighGridList .desc em {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -169px -74px;
+  width: 6px;
+  height: 8px;
+  margin-left: 5px;
+  display: inline-block;
+}
+.M-HighGrid .M-HighGridListLayoutLeft {
+  z-index: 2;
+  overflow: hidden;
+  position: relative;
+}
+.M-HighGrid .M-HighGridListLayoutLeft:before {
+  top: 0;
+  width: 15px;
+  content: " ";
+  height: 100%;
+  right: -15px;
+  position: absolute;
+  box-shadow: 6px 0 19px -14px inset;
+}
+.M-HighGrid .shadow {
+  overflow: visible;
+}
+.M-HighGrid .running {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -62px -122px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.M-HighGrid .pause {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -78px -122px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.M-HighGrid .store {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  background-position: -94px -122px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.M-HighGridTab {
+  margin: 0;
+  padding: 0;
+  float: left;
+  background: #F8F8F8;
+  border: 1px solid #d8d8d8;
+  border-bottom: none;
+}
+.M-HighGridTab ul {
+  padding-left: 0px;
+}
+.M-HighGridTabItem {
+  float: left;
+  color: #0D0D0D;
+  cursor: pointer;
+  display: inline;
+  padding: 8px 17px;
+  list-style: none;
+}
+.M-HighGridTabItem i {
+  padding: 0 7px;
+  cursor: pointer;
+  margin-right: -10px;
+}
+.M-HighGridTabActive {
+  color: white;
+  cursor: default;
+  background: #535B5E;
+}
+.M-HighGridTabCustom {
+  z-index: 20;
+  color: #aaa;
+  background: #fff;
+  box-shadow: none;
+  min-width: 350px;
+  border-radius: 0;
+  white-space: nowrap;
+  border: 1px solid #aaa;
+}
+.M-HighGridTabCustom label input {
+  margin-right: 5px;
+}
+.M-HighGridTabCustom td {
+  line-height: 16px;
+  vertical-align: top;
+  white-space: nowrap;
+  padding: 0 15px 10px;
+}
+.M-HighGridTabCustom td strong {
+  display: block;
+  color: #0E0E0E;
+  font-weight: 400;
+  margin-top: 10px;
+  padding: 0 0 8px 0;
+}
+.M-HighGridTabCustom td label {
+  color: #646464;
+  display: block;
+  padding: 3px 0;
+  margin: 0 0 0 14px;
+}
+.M-HighGridTabHide {
+  display: none;
+}
+.M-HighGridSubgrid {
+  z-index: 3;
+  position: absolute;
+  background: rgba(255, 255, 255, 0);
+}
+.M-HighGridSubgrid a {
+  background-image: url("../images/icons.png?0422");
+  background-repeat: no-repeat;
+  margin-right: 6px;
+  display: inline-block;
+  opacity: 0.2;
+}
+.M-HighGridSubgrid a:hover {
+  opacity: 1;
+}
+.M-HighGridSubgrid a.M-HighGrid-subgridArrow:hover {
+  opacity: 0.2;
+}
+.M-HighGrid-subgridArrow {
+  background-position: 0 -148px;
+  width: 21px;
+  height: 11px;
+}
+.M-HighGrid-subgrid {
+  background-position: -21px -148px;
+  width: 16px;
+  height: 16px;
+}
+.M-HighGrid-sweety {
+  background-position: -37px -148px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-campaign {
+  background-position: -59px -148px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-period {
+  background-position: -81px -148px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-mediaAndAd {
+  background-position: -169px -44px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-mediaAndAd_Monitor {
+  background-position: -169px -44px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-region {
+  background-position: -169px -22px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-client {
+  background-position: -103px -148px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-product {
+  background-position: -125px -148px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-frequency {
+  background-position: -147px -148px;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGrid-whisky {
+  background-position: -169px 0;
+  width: 22px;
+  height: 22px;
+}
+.M-HighGridListRowSelected {
+  font-weight: bold;
+}
+.M-HighGridListRowHighlight {
+  background: #FFF4D7 !important;
+}
 .M-articleTitle h1 {
   display: inline;
 }
